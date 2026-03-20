@@ -36,7 +36,9 @@ It’s up to you, but some suggestions include:
         - Issues overcome along the way
         - PPT or document style OK
 
-# Inspiration
+# Results
+- Code Entry Point [`data_quality_agent/agent.py`](./data_quality_agent/agent.py)
+- Main project documentation: [`./documentation/DOCUMENTATION.md`](./documentation/DOCUMENTATION.md)
+- Blog-style project summary with visuals: [`./presentation/Blog_Post_Style_Presentation.md`](./presentation/Blog_Post_Style_Presentation.md)
 
-## Data & code
 
