@@ -40,27 +40,3 @@ It’s up to you, but some suggestions include:
 
 ## Data & code
 
-- [The Incredible PyTorch](https://github.com/ritchieng/the-incredible-pytorch)
-    
-    > List of papers, code, examples using PyTorch
-    > 
-- [Kaggle](https://www.kaggle.com)
-    
-    > ML competition/collaboration site
-    > 
-- [Keras code examples](https://keras.io/examples/)
-    
-    > Official examples of implementation using Google’s TensorFlow Keras
-    > 
-- [PLOS papers with available data](https://journals.plos.org/plosone/search?q=data_availability%3A(osf.io%20OR%20github%20OR%20dryad%20OR%20figshare)&page=1)
-    
-    > Searching PLOS for keywords likely to have available data, refine further to get topics interesting to you
-    > 
-- [PLOS recommended repositories](https://journals.plos.org/plosone/s/recommended-repositories) (data, code, and sometimes both)
-    
-    > Lots here, mostly data repositories
-    > 
-- [The Pudding](https://www.pudding.cool)
-    
-    > Visual essays with data
-    >
