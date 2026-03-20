@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+
+body {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #800000; text-decoration-color: #800000">╭─────────────────────────────────────────────────────────────╮</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> run_id: dq-manual-simple-p05-flash-20260320T045722Z         <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> db_url: sqlite:///./runs/db/healthcare_work.sqlite          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> verdict: RED                                                <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> tests: 2 (pass=1, fail=1, error=0)                          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> log: runs/dq-manual-simple-p05-flash-20260320T045722Z.jsonl <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">╰─────────────────────────────────────────────────────────────╯</span>
+<span style="color: #800080; text-decoration-color: #800080; text-decoration: underline">Run Snapshot</span>                                                                                   
+
+<span style="font-weight: bold"> • </span>Overall verdict: <span style="font-weight: bold">RED</span>                                                                        
+<span style="font-weight: bold"> • </span>Total tests: <span style="font-weight: bold">2</span>                                                                              
+<span style="font-weight: bold"> • </span>Passed: <span style="font-weight: bold">1</span>                                                                                   
+<span style="font-weight: bold"> • </span>Failed: <span style="font-weight: bold">1</span>                                                                                   
+<span style="font-weight: bold"> • </span>Errors: <span style="font-weight: bold">0</span>                                                                                   
+<span style="font-style: italic">                                 Data Quality Test Results                                  </span>
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Severity </span>┃<span style="font-weight: bold"> Status </span>┃<span style="font-weight: bold"> Table              </span>┃<span style="font-weight: bold"> Test                       </span>┃<span style="font-weight: bold"> Issues </span>┃<span style="font-weight: bold"> Truncated </span>┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━┩
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">CRITICAL</span><span style="font-weight: bold"> </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ discharge_before_admission │   1133 │ yes       │
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">HIGH</span><span style="font-weight: bold">     </span>│ <span style="color: #008000; text-decoration-color: #008000">PASS</span>   │ healthcare_dataset │ inconsistent_gender_values │      0 │ no        │
+└──────────┴────────┴────────────────────┴────────────────────────────┴────────┴───────────┘
+╭─────────────────────────────────── Supervisor Narrative ────────────────────────────────────╮
+│ <span style="font-weight: bold">Overall Verdict: Red</span>                                                                        │
+│                                                                                             │
+│ <span style="font-weight: bold">Top Critical/High Issues:</span>                                                                   │
+│                                                                                             │
+│ <span style="font-weight: bold"> • Critical Failure: </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">discharge_before_admission</span><span style="font-weight: bold"> (1133 issues)</span>                               │
+│ <span style="font-weight: bold">    • Description:</span> The most significant issue identified is 1133 records where the          │
+│ <span style="font-weight: bold">      </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">discharge_date</span> precedes the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">date_of_admission</span>. This indicates severe logical          │
+│ <span style="font-weight: bold">      </span>inconsistencies in the patient records, severely impacting data reliability for       │
+│ <span style="font-weight: bold">      </span>critical operations like billing, length-of-stay calculations, and patient timeline   │
+│ <span style="font-weight: bold">      </span>analysis. The sample data <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">date_of_admission: &#x27;2099-12-31&#x27;, discharge_date: </span>           │
+│ <span style="font-weight: bold">      </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">&#x27;2020-06-01&#x27;</span> suggests a systemic problem, possibly due to placeholder or incorrect    │
+│ <span style="font-weight: bold">      </span>future admission dates.                                                               │
+│                                                                                             │
+│ <span style="font-weight: bold">Test Coverage Notes:</span>                                                                        │
+│                                                                                             │
+│ Out of 2 planned tests, 1 critical test failed and 1 high test passed. The executed tests   │
+│ provided coverage for critical logical date consistency and important categorical value     │
+│ consistency for gender, successfully highlighting a major data integrity problem.           │
+│                                                                                             │
+│ <span style="font-weight: bold">Suggested Production Guardrails:</span>                                                            │
+│                                                                                             │
+│ To prevent these critical issues from reoccurring and ensure data quality in future loads,  │
+│ implement the following SQL checks as mandatory guardrails:                                 │
+│                                                                                             │
+│ <span style="font-weight: bold"> • For </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">discharge_before_admission</span><span style="font-weight: bold"> (Critical):</span>                                               │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">COUNT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">(</span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">*</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">) </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> julianday(discharge_date) </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&lt;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="background-color: #272822">             </span> │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">julianday(date_of_admission);</span><span style="background-color: #272822">                                                          </span> │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="font-weight: bold">    • Action:</span> This check must pass with 0 issues. Any records failing this validation       │
+│ <span style="font-weight: bold">      </span>indicate fundamental logical errors and should either prevent the data load or be     │
+│ <span style="font-weight: bold">      </span>routed to a dedicated quarantine zone for immediate investigation and manual          │
+│ <span style="font-weight: bold">      </span>correction. Prioritize identifying the root cause of the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">2099-12-31</span> admission date.   │
+│ <span style="font-weight: bold"> • For </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">inconsistent_gender_values</span><span style="font-weight: bold"> (High):</span>                                                   │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">COUNT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">(</span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">*</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">) </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">LOWER</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">(gender) </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">NOT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">IN</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> (</span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">&#x27;male&#x27;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">, </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">&#x27;female&#x27;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">) </span><span style="background-color: #272822"> </span> │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">OR</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> gender </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">IS</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">NULL</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">;</span><span style="background-color: #272822">                                                                     </span> │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="font-weight: bold">    • Action:</span> While this test passed in this run, it&#x27;s a valuable check to maintain the     │
+│ <span style="font-weight: bold">      </span>integrity of categorical data. Schedule this check to ensure all <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">gender</span> values        │
+│ <span style="font-weight: bold">      </span>conform to &#x27;Male&#x27; or &#x27;Female&#x27; (case-insensitive) and are not null. Records failing    │
+│ <span style="font-weight: bold">      </span>this check should be flagged for correction or standardization.                       │
+╰─────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+</body>
+</html>

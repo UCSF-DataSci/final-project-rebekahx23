@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-simple-p05-flash-20260320T060403Z</h1>
+<p>Generated at: 2026-03-20 06:04:30 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark simple issues: SIMPLE-P05-FLASH</code></li>
+<li>Event log: <code>runs/dq-manual-simple-p05-flash-20260320T060403Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>main.healthcare_dataset</td>
+<td>check_negative_or_zero_length_of_stay</td>
+<td style="text-align: right;">1135</td>
+</tr>
+<tr>
+<td>MEDIUM</td>
+<td>FAIL</td>
+<td>main.healthcare_dataset</td>
+<td>check_missing_names</td>
+<td style="text-align: right;">1127</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [HIGH/FAIL] check_negative_or_zero_length_of_stay (main.healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: Identifies records where the discharge date occurs before or on the same day as the admission date, indicating potential data entry errors or logical inconsistencies in date tracking.</li>
+<li>Issue count: <strong>1135</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT * 
+FROM main.healthcare_dataset 
+WHERE julianday(discharge_date) &lt;= julianday(date_of_admission);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;ChRISTopher BerG&quot;,
+    &quot;age&quot;: 39000,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;AB-&quot;,
+    &quot;medical_condition&quot;: &quot;Cancer&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Heather Day&quot;,
+    &quot;hospital&quot;: &quot;Padilla-Walker&quot;,
+    &quot;insurance_provider&quot;: &quot;UnitedHealthcare&quot;,
+    &quot;billing_amount&quot;: 19784.63106221073,
+    &quot;room_number&quot;: 249,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2021-06-22&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;bRADlEY coMbS&quot;,
+    &quot;age&quot;: 52,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;AB-&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Christopher Butler&quot;,
+    &quot;hospital&quot;: &quot;Stout-Brown&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 37734.74218038699,
+    &quot;room_number&quot;: 251,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2021-06-06&quot;,
+    &quot;medication&quot;: &quot;Penicillin&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;JAMEs Ross&quot;,
+    &quot;age&quot;: 83,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Diabetes&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Michael Baker&quot;,
+    &quot;hospital&quot;: &quot;Cox-Hester&quot;,
+    &quot;insurance_provider&quot;: &quot;Blue Cross&quot;,
+    &quot;billing_amount&quot;: 10352.20848674086,
+    &quot;room_number&quot;: 394,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2024-01-22&quot;,
+    &quot;medication&quot;: &quot;Aspirin&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  }
+]
+</code></pre>
+<h3>2. [MEDIUM/FAIL] check_missing_names (main.healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The 'name' column contains null values, which disrupts patient identification and downstream reporting.</li>
+<li>Issue count: <strong>1127</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT * 
+FROM main.healthcare_dataset 
+WHERE name IS NULL;
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: null,
+    &quot;age&quot;: 49,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A-&quot;,
+    &quot;medical_condition&quot;: &quot;Asthma&quot;,
+    &quot;date_of_admission&quot;: &quot;2022-06-24&quot;,
+    &quot;doctor&quot;: &quot;Matthew Thomas&quot;,
+    &quot;hospital&quot;: &quot;and Howell Brooks, Rogers&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 25966.328610220968,
+    &quot;room_number&quot;: 418,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2022-07-18&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: null,
+    &quot;age&quot;: 20,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;B+&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Tracey Spence&quot;,
+    &quot;hospital&quot;: &quot;Lewis Livingston, Lowe and&quot;,
+    &quot;insurance_provider&quot;: &quot;Blue Cross&quot;,
+    &quot;billing_amount&quot;: 10663.910005038557,
+    &quot;room_number&quot;: 104,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2019-10-16&quot;,
+    &quot;medication&quot;: &quot;Aspirin&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: null,
+    &quot;age&quot;: 81,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;B+&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-10-25&quot;,
+    &quot;doctor&quot;: &quot;Elizabeth Morales&quot;,
+    &quot;hospital&quot;: &quot;and Smith, Tucker Cross&quot;,
+    &quot;insurance_provider&quot;: &quot;UnitedHealthcare&quot;,
+    &quot;billing_amount&quot;: 46377.86514923159,
+    &quot;room_number&quot;: 275,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2021-11-22&quot;,
+    &quot;medication&quot;: &quot;Lipitor&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p>The data quality assessment of <code>main.healthcare_dataset</code> (run: dq-manual-simple-p05-flash-20260320T060403Z) indicates the dataset is highly unreliable. </p>
+<h3><strong>Overall Verdict: RED</strong></h3>
+<h3><strong>Critical Findings</strong></h3>
+<ul>
+<li><strong>Logical Inconsistency (High Risk):</strong> 1,135 records have illogical <code>length_of_stay</code> values (e.g., discharge date before admission, or erroneous <code>2099</code> placeholder dates).</li>
+<li><strong>Completeness (Medium Risk):</strong> 1,127 records are missing <code>name</code> values, severely impacting data utility for patient-level reporting.</li>
+</ul>
+<h3><strong>Test Coverage</strong></h3>
+<ul>
+<li>Tests focused on fundamental data integrity: completeness of identity fields and temporal validity of admission/discharge cycles. </li>
+<li>Both tests resulted in failures across a significant portion of the dataset (~375% of the sampled batch, implying widespread systemic issues).</li>
+</ul>
+<h3><strong>Suggested Production Guardrails (Implementation Required)</strong></h3>
+<p>To prevent similar issues in future pipeline runs, the following SQL-based quality gates should be integrated into the data ingestion layer:<br>
+1.  <strong>Identity Gate:</strong> <code>ALTER TABLE main.healthcare_dataset ADD CONSTRAINT name_not_null CHECK (name IS NOT NULL);</code> (or filter during ETL).<br>
+2.  <strong>Date Validity Gate:</strong> Add an ingestion check: <code>SELECT count(*) FROM main.healthcare_dataset WHERE date_of_admission &gt; '2025-01-01' OR discharge_date &lt; date_of_admission;</code> - reject or quarantine batches exceeding an error threshold.<br>
+3.  <strong>Type Enforcement:</strong> Cast <code>date_of_admission</code> and <code>discharge_date</code> to <code>DATE</code> types immediately upon landing to ensure standard ISO-8601 formatting and catch non-conforming entries.</p>
+    </article>
+  </div>
+</body>
+</html>

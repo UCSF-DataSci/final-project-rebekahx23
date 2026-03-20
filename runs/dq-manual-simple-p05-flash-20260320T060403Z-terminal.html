@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+
+body {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #800000; text-decoration-color: #800000">╭─────────────────────────────────────────────────────────────╮</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> run_id: dq-manual-simple-p05-flash-20260320T060403Z         <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> db_url: sqlite:///./runs/db/healthcare_work.sqlite          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> verdict: RED                                                <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> tests: 2 (pass=0, fail=2, error=0)                          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> log: runs/dq-manual-simple-p05-flash-20260320T060403Z.jsonl <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">╰─────────────────────────────────────────────────────────────╯</span>
+<span style="color: #800080; text-decoration-color: #800080; text-decoration: underline">Run Snapshot</span>                                                                                                                       
+
+<span style="font-weight: bold"> • </span>Overall verdict: <span style="font-weight: bold">RED</span>                                                                                                            
+<span style="font-weight: bold"> • </span>Total tests: <span style="font-weight: bold">2</span>                                                                                                                  
+<span style="font-weight: bold"> • </span>Passed: <span style="font-weight: bold">0</span>                                                                                                                       
+<span style="font-weight: bold"> • </span>Failed: <span style="font-weight: bold">2</span>                                                                                                                       
+<span style="font-weight: bold"> • </span>Errors: <span style="font-weight: bold">0</span>                                                                                                                       
+<span style="font-style: italic">                                         Data Quality Test Results                                          </span>
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Severity </span>┃<span style="font-weight: bold"> Status </span>┃<span style="font-weight: bold"> Table                   </span>┃<span style="font-weight: bold"> Test                                  </span>┃<span style="font-weight: bold"> Issues </span>┃<span style="font-weight: bold"> Truncated </span>┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━┩
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">HIGH</span><span style="font-weight: bold">     </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ main.healthcare_dataset │ check_negative_or_zero_length_of_stay │   1135 │ yes       │
+│<span style="font-weight: bold"> </span><span style="color: #808000; text-decoration-color: #808000; font-weight: bold">MEDIUM</span><span style="font-weight: bold">   </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ main.healthcare_dataset │ check_missing_names                   │   1127 │ yes       │
+└──────────┴────────┴─────────────────────────┴───────────────────────────────────────┴────────┴───────────┘
+╭───────────────────────────────────────────────────── Supervisor Narrative ──────────────────────────────────────────────────────╮
+│ The data quality assessment of <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">main.healthcare_dataset</span> (run: dq-manual-simple-p05-flash-20260320T060403Z) indicates the dataset │
+│ is highly unreliable.                                                                                                           │
+│                                                                                                                                 │
+│ <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Overall Verdict: RED</span>                                                                                                            │
+│                                                                                                                                 │
+│ <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Critical Findings</span>                                                                                                               │
+│                                                                                                                                 │
+│ <span style="font-weight: bold"> • Logical Inconsistency (High Risk):</span> 1,135 records have illogical <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">length_of_stay</span> values (e.g., discharge date before           │
+│ <span style="font-weight: bold">   </span>admission, or erroneous <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">2099</span> placeholder dates).                                                                             │
+│ <span style="font-weight: bold"> • Completeness (Medium Risk):</span> 1,127 records are missing <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">name</span> values, severely impacting data utility for patient-level         │
+│ <span style="font-weight: bold">   </span>reporting.                                                                                                                   │
+│                                                                                                                                 │
+│ <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Test Coverage</span>                                                                                                                   │
+│                                                                                                                                 │
+│ <span style="font-weight: bold"> • </span>Tests focused on fundamental data integrity: completeness of identity fields and temporal validity of admission/discharge    │
+│ <span style="font-weight: bold">   </span>cycles.                                                                                                                      │
+│ <span style="font-weight: bold"> • </span>Both tests resulted in failures across a significant portion of the dataset (~375% of the sampled batch, implying widespread │
+│ <span style="font-weight: bold">   </span>systemic issues).                                                                                                            │
+│                                                                                                                                 │
+│ <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Suggested Production Guardrails (Implementation Required)</span>                                                                       │
+│                                                                                                                                 │
+│ To prevent similar issues in future pipeline runs, the following SQL-based quality gates should be integrated into the data     │
+│ ingestion layer:                                                                                                                │
+│                                                                                                                                 │
+│ <span style="color: #008080; text-decoration-color: #008080"> 1 </span><span style="font-weight: bold">Identity Gate:</span> <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">ALTER TABLE main.healthcare_dataset ADD CONSTRAINT name_not_null CHECK (name IS NOT NULL);</span> (or filter during  │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>ETL).                                                                                                                        │
+│ <span style="color: #008080; text-decoration-color: #008080"> 2 </span><span style="font-weight: bold">Date Validity Gate:</span> Add an ingestion check: <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">SELECT count(*) FROM main.healthcare_dataset WHERE date_of_admission &gt; </span>          │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">&#x27;2025-01-01&#x27; OR discharge_date &lt; date_of_admission;</span> - reject or quarantine batches exceeding an error threshold.             │
+│ <span style="color: #008080; text-decoration-color: #008080"> 3 </span><span style="font-weight: bold">Type Enforcement:</span> Cast <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">date_of_admission</span> and <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">discharge_date</span> to <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">DATE</span> types immediately upon landing to ensure standard        │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>ISO-8601 formatting and catch non-conforming entries.                                                                        │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-complex-p20-pro-20260320T054458Z</h1>
+<p>Generated at: 2026-03-20 05:46:21 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>YELLOW</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>1</strong></li>
+<li>Failed: <strong>1</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark complex issues: COMPLEX-P20-PRO</code></li>
+<li>Event log: <code>runs/dq-manual-complex-p20-pro-20260320T054458Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MEDIUM</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>name_or_doctor_contains_prefix_or_suffix</td>
+<td style="text-align: right;">2870</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [MEDIUM/FAIL] name_or_doctor_contains_prefix_or_suffix (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The profile noted prefixes (Mr., Dr.) and suffixes (MD, DDS) in the <code>name</code> and <code>doctor</code> columns. These non-name components complicate data integration and entity resolution. This test flags records containing common prefixes or suffixes, highlighting the need for data cleaning and standardization to ensure reliable record matching.</li>
+<li>Issue count: <strong>2870</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT
+  *
+FROM
+  healthcare_dataset
+WHERE
+  LOWER(name) LIKE 'mr. %'
+  OR LOWER(name) LIKE 'dr. %'
+  OR LOWER(name) LIKE LOWER('% md')
+  OR LOWER(name) LIKE LOWER('% dds')
+  OR LOWER(doctor) LIKE 'mr. %'
+  OR LOWER(doctor) LIKE 'dr. %'
+  OR LOWER(doctor) LIKE LOWER('% md')
+  OR LOWER(doctor) LIKE LOWER('% dds')
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;dR. EilEEn thomPsoN&quot;,
+    &quot;age&quot;: 59,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Asthma&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-08-02&quot;,
+    &quot;doctor&quot;: &quot;Donna Martinez MD&quot;,
+    &quot;hospital&quot;: &quot;and Sons Smith&quot;,
+    &quot;insurance_provider&quot;: &quot;Aetna&quot;,
+    &quot;billing_amount&quot;: 25250.052428216135,
+    &quot;room_number&quot;: 119,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2021-08-12&quot;,
+    &quot;medication&quot;: &quot;Lipitor&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;mr. KenNEth MoORE&quot;,
+    &quot;age&quot;: 34,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Diabetes&quot;,
+    &quot;date_of_admission&quot;: &quot;2022-06-21&quot;,
+    &quot;doctor&quot;: &quot;James Ellis&quot;,
+    &quot;hospital&quot;: &quot;Serrano-Dixon&quot;,
+    &quot;insurance_provider&quot;: &quot;UnitedHealthcare&quot;,
+    &quot;billing_amount&quot;: 18834.80134117836,
+    &quot;room_number&quot;: 157,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2022-06-30&quot;,
+    &quot;medication&quot;: &quot;Lipitor&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;Mr. eRiC Lane&quot;,
+    &quot;age&quot;: 49,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A-&quot;,
+    &quot;medical_condition&quot;: &quot;Asthma&quot;,
+    &quot;date_of_admission&quot;: &quot;2022-06-24&quot;,
+    &quot;doctor&quot;: &quot;Matthew Thomas&quot;,
+    &quot;hospital&quot;: &quot;and Howell Brooks, Rogers&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 25966.328610220968,
+    &quot;room_number&quot;: 418,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2022-07-18&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<h1>Data Quality Report: healthcare_dataset</h1>
+<p><strong>Overall Verdict:</strong> 🟡 Yellow - Caution</p>
+<p>While no high-severity issues were found, a significant medium-severity issue was detected, indicating a need for data cleaning and standardization.</p>
+<h3>Top Issues</h3>
+<ul>
+<li><strong>Medium Severity: Prefixes and Suffixes in Names</strong><ul>
+<li><strong>Test:</strong> <code>name_or_doctor_contains_prefix_or_suffix</code></li>
+<li><strong>Table:</strong> <code>healthcare_dataset</code></li>
+<li><strong>Problem:</strong> 2,870 rows in the <code>name</code> and <code>doctor</code> columns contain prefixes (e.g., "Mr.", "Dr.") or suffixes (e.g., "MD", "DDS").</li>
+<li><strong>Impact:</strong> This complicates record matching and integration. For instance, a doctor might be listed as "Dr. Jane Doe" in one record and "Jane Doe MD" in another, leading to analytical errors.</li>
+<li><strong>Recommendation:</strong> Implement a cleaning step to parse and remove these prefixes/suffixes from the name and doctor fields.</li>
+</ul>
+</li>
+</ul>
+<h3>Test Coverage Notes</h3>
+<ul>
+<li><strong>2 tests executed</strong> on the <code>healthcare_dataset</code> table.</li>
+<li>✅ The high-severity test for <strong>invalid date formats passed</strong>, confirming that all admission and discharge dates are correctly formatted.</li>
+<li>❌ The medium-severity test for <strong>name and doctor prefixes/suffixes failed</strong>, highlighting the primary quality issue in this run.</li>
+</ul>
+<h3>Suggested Production Guardrails</h3>
+<p>To maintain data quality, the following SQL check should be scheduled to run with each data load:</p>
+<ol>
+<li><strong>Detect Prefixes/Suffixes in Names and Doctors:</strong> This check will prevent un-parsed name formats from entering the table.<br>
+<code>sql
+    SELECT
+      *
+    FROM
+      healthcare_dataset
+    WHERE
+      LOWER(name) LIKE 'mr. %'
+      OR LOWER(name) LIKE 'dr. %'
+      OR LOWER(name) LIKE LOWER('% md')
+      OR LOWER(name) LIKE LOWER('% dds')
+      OR LOWER(doctor) LIKE 'mr. %'
+      OR LOWER(doctor) LIKE 'dr. %'
+      OR LOWER(doctor) LIKE LOWER('% md')
+      OR LOWER(doctor) LIKE LOWER('% dds')</code></li>
+</ol>
+    </article>
+  </div>
+</body>
+</html>

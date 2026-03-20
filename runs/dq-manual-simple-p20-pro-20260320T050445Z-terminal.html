@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+
+body {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #800000; text-decoration-color: #800000">╭───────────────────────────────────────────────────────────╮</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> run_id: dq-manual-simple-p20-pro-20260320T050445Z         <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> db_url: sqlite:///./runs/db/healthcare_work.sqlite        <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> verdict: RED                                              <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> tests: 2 (pass=0, fail=2, error=0)                        <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> log: runs/dq-manual-simple-p20-pro-20260320T050445Z.jsonl <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">╰───────────────────────────────────────────────────────────╯</span>
+<span style="color: #800080; text-decoration-color: #800080; text-decoration: underline">Run Snapshot</span>                                                                                   
+
+<span style="font-weight: bold"> • </span>Overall verdict: <span style="font-weight: bold">RED</span>                                                                        
+<span style="font-weight: bold"> • </span>Total tests: <span style="font-weight: bold">2</span>                                                                              
+<span style="font-weight: bold"> • </span>Passed: <span style="font-weight: bold">0</span>                                                                                   
+<span style="font-weight: bold"> • </span>Failed: <span style="font-weight: bold">2</span>                                                                                   
+<span style="font-weight: bold"> • </span>Errors: <span style="font-weight: bold">0</span>                                                                                   
+<span style="font-style: italic">                                 Data Quality Test Results                                  </span>
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Severity </span>┃<span style="font-weight: bold"> Status </span>┃<span style="font-weight: bold"> Table              </span>┃<span style="font-weight: bold"> Test                       </span>┃<span style="font-weight: bold"> Issues </span>┃<span style="font-weight: bold"> Truncated </span>┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━┩
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">CRITICAL</span><span style="font-weight: bold"> </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ discharge_before_admission │   1133 │ yes       │
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">CRITICAL</span><span style="font-weight: bold"> </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ unrealistic_patient_age    │   1129 │ yes       │
+└──────────┴────────┴────────────────────┴────────────────────────────┴────────┴───────────┘
+╭─────────────────────────────────── Supervisor Narrative ────────────────────────────────────╮
+│ <span style="font-weight: bold">Overall Verdict: Red</span>                                                                        │
+│                                                                                             │
+│ This data quality run on the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">healthcare_dataset</span> has surfaced critical integrity issues that │
+│ require immediate attention. The overall health of the dataset is poor, and it should not   │
+│ be used for production analytics or decision-making in its current state.                   │
+│                                                                                             │
+│ <span style="font-weight: bold">Top Critical Issues:</span>                                                                        │
+│                                                                                             │
+│ <span style="font-weight: bold"> • </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">unrealistic_patient_age</span> (Critical): A significant number of records (1,129) were found   │
+│ <span style="font-weight: bold">   </span>with patient ages outside the plausible human range of 0-120 years. This indicates a     │
+│ <span style="font-weight: bold">   </span>systemic issue with data entry or data corruption.                                       │
+│ <span style="font-weight: bold"> • </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">discharge_before_admission</span> (Critical): We found 1,133 instances where a patient&#x27;s        │
+│ <span style="font-weight: bold">   </span>discharge date is chronologically before their admission date. This is a logical         │
+│ <span style="font-weight: bold">   </span>impossibility and severely compromises the integrity of patient timelines.               │
+│                                                                                             │
+│ <span style="font-weight: bold">Test Coverage Notes:</span> The tests were focused on the most severe data anomalies identified    │
+│ during profiling. While we have confirmed critical issues related to data accuracy and      │
+│ integrity, we have not yet addressed lower-severity issues like inconsistent string         │
+│ formatting in <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">name</span> and <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">hospital</span> columns, which could impact record linkage and entity       │
+│ resolution.                                                                                 │
+│                                                                                             │
+│ <span style="font-weight: bold">Suggested Production Guardrails:</span> To prevent these critical issues from recurring in         │
+│ production, we recommend implementing the following SQL checks as blocking guardrails in    │
+│ your data loading pipeline. These should be run with each new data batch:                   │
+│                                                                                             │
+│ <span style="color: #008080; text-decoration-color: #008080"> 1 </span><span style="font-weight: bold">Block loads with unrealistic ages:</span>                                                       │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">COUNT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">(</span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">*</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">) </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> age </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">IS</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">NOT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">NULL</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">AND</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> (age </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&lt;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">OR</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> age </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&gt;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="background-color: #272822">   </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">120</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">);</span><span style="background-color: #272822">                                                                                  </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="color: #008080; text-decoration-color: #008080"> 2 </span><span style="font-weight: bold">Block loads with impossible timelines:</span>                                                   │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">COUNT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">(</span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">*</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">) </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> julianday(discharge_date) </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&lt;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="background-color: #272822">             </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">julianday(date_of_admission);</span><span style="background-color: #272822">                                                          </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+│                                                                                             │
+│ If either of these queries returns a count greater than zero, the data load should be       │
+│ immediately halted and an alert triggered for manual review.                                │
+╰─────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+</body>
+</html>

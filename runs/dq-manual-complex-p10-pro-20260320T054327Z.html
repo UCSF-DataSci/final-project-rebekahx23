@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-complex-p10-pro-20260320T054327Z</h1>
+<p>Generated at: 2026-03-20 05:44:45 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark complex issues: COMPLEX-P10-PRO</code></li>
+<li>Event log: <code>runs/dq-manual-complex-p10-pro-20260320T054327Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRITICAL</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>discharge_before_admission</td>
+<td style="text-align: right;">555</td>
+</tr>
+<tr>
+<td>MEDIUM</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>hospital_name_trailing_patterns</td>
+<td style="text-align: right;">10378</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [CRITICAL/FAIL] discharge_before_admission (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The discharge date cannot be before the admission date. This indicates a critical data entry error that invalidates the patient's stay record and corrupts metrics like length of stay. The date columns are stored as TEXT and must be converted for comparison.</li>
+<li>Issue count: <strong>555</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT
+  name,
+  date_of_admission,
+  discharge_date
+FROM healthcare_dataset
+WHERE
+  date(discharge_date) &lt; date(date_of_admission);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;CHrisTInA MARtinez&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-12-28&quot;,
+    &quot;discharge_date&quot;: &quot;2021-12-27&quot;
+  },
+  {
+    &quot;name&quot;: &quot;JOsEph fOstER&quot;,
+    &quot;date_of_admission&quot;: &quot;2019-09-11&quot;,
+    &quot;discharge_date&quot;: &quot;2019-09-10&quot;
+  },
+  {
+    &quot;name&quot;: &quot;mIcHael anDeRson&quot;,
+    &quot;date_of_admission&quot;: &quot;2019-08-16&quot;,
+    &quot;discharge_date&quot;: &quot;2019-08-15&quot;
+  }
+]
+</code></pre>
+<h3>2. [MEDIUM/FAIL] hospital_name_trailing_patterns (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: Hospital names ending with patterns like a trailing comma or conjunction (e.g., ', and') suggest that the data was improperly parsed or truncated. This can lead to incorrect grouping and analysis of hospital data.</li>
+<li>Issue count: <strong>10378</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT
+  hospital
+FROM healthcare_dataset
+WHERE
+  RTRIM(hospital) LIKE '%,'
+  OR LOWER(RTRIM(hospital)) LIKE '% and';
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;hospital&quot;: &quot;Hernandez Rogers and Vang,&quot;
+  },
+  {
+    &quot;hospital&quot;: &quot;Powell Robinson and Valdez,&quot;
+  },
+  {
+    &quot;hospital&quot;: &quot;Sons Rich and&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p>Executive Summary: Data Quality Run on <code>healthcare_dataset</code></p>
+<ul>
+<li>
+<p><strong>Overall Verdict</strong>: <strong>Red</strong></p>
+<ul>
+<li><em>Rationale</em>: A critical test failed, indicating severe data integrity issues that will impact downstream analysis and reporting. The dataset in its current state is not reliable.</li>
+</ul>
+</li>
+<li>
+<p><strong>Top Issues</strong></p>
+<ul>
+<li><strong>(Critical)</strong> <code>discharge_before_admission</code>: 1 test failed with 555 records where the patient's discharge date is recorded as being before their admission date. This represents a fundamental flaw in the patient stay records.</li>
+<li><strong>(Medium)</strong> <code>hospital_name_trailing_patterns</code>: 1 test failed with 10,378 records where hospital names have trailing conjunctions or commas (e.g., "Sons Watson and", "Hernandez Rogers and Vang,"). This suggests a systemic data parsing or extraction error.</li>
+</ul>
+</li>
+<li>
+<p><strong>Test Coverage Notes</strong></p>
+<ul>
+<li>This run focused on critical logical validation (date sequencing) and common parsing errors based on initial data profiling.</li>
+<li>Further quality risks were identified during profiling but not tested in this run, including inconsistent casing in <code>name</code> and <code>doctor</code> columns, and the storage of dates as TEXT instead of native DATE types. We recommend adding tests for these in subsequent runs.</li>
+</ul>
+</li>
+<li>
+<p><strong>Suggested Production Guardrails</strong></p>
+<ul>
+<li>To prevent these issues in future data loads, the following SQL checks should be integrated into your production pipeline and configured to halt the process if they return any rows:<br>
+1.  <strong>Check for Invalid Discharge Dates</strong>:<br>
+<code>sql
+    SELECT
+      name,
+      date_of_admission,
+      discharge_date
+    FROM healthcare_dataset
+    WHERE
+      date(discharge_date) &lt; date(date_of_admission);</code><br>
+2.  <strong>Check for Malformed Hospital Names</strong>:<br>
+<code>sql
+    SELECT
+      hospital
+    FROM healthcare_dataset
+    WHERE
+      RTRIM(hospital) LIKE '%,'
+      OR LOWER(RTRIM(hospital)) LIKE '% and';</code></li>
+</ul>
+</li>
+</ul>
+    </article>
+  </div>
+</body>
+</html>

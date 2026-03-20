@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-complex-p10-flash-20260320T054910Z</h1>
+<p>Generated at: 2026-03-20 05:50:20 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>1</strong></li>
+<li>Errors: <strong>1</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark complex issues: COMPLEX-P10-FLASH</code></li>
+<li>Event log: <code>runs/dq-manual-complex-p10-flash-20260320T054910Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRITICAL</td>
+<td>ERROR</td>
+<td>healthcare_dataset</td>
+<td>admission_discharge_date_inconsistencies</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>patient_name_standardization_issues</td>
+<td style="text-align: right;">55417</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [CRITICAL/ERROR] admission_discharge_date_inconsistencies (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The <code>date_of_admission</code> and <code>discharge_date</code> columns are stored as TEXT, carrying a risk of invalid date entries and incorrect date comparisons. This test identifies records where either date is not a valid 'YYYY-MM-DD' format or where the <code>discharge_date</code> logically precedes the <code>date_of_admission</code>. Such issues can lead to incorrect calculations of stay duration and flawed reporting.</li>
+<li>Issue count: <strong>0</strong></li>
+<li>Output truncated: <strong>no</strong></li>
+<li>Execution error: <code>Only one SQL statement is allowed.</code></li>
+</ul>
+<pre><code class="language-sql">SELECT
+  name,
+  age,
+  gender,
+  blood_type,
+  medical_condition,
+  date_of_admission,
+  doctor,
+  hospital,
+  insurance_provider,
+  billing_amount,
+  room_number,
+  admission_type,
+  discharge_date,
+  medication,
+  test_results
+FROM healthcare_dataset
+WHERE
+  date_of_admission IS NULL
+  OR discharge_date IS NULL
+  OR date(date_of_admission) IS NULL -- Checks for invalid admission date format
+  OR date(discharge_date) IS NULL -- Checks for invalid discharge date format
+  OR julianday(discharge_date) &lt; julianday(date_of_admission); -- Checks if discharge is before admission
+</code></pre>
+<h3>2. [HIGH/FAIL] patient_name_standardization_issues (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The <code>name</code> field suffers from inconsistent capitalization and contains professional titles (e.g., 'MD', 'DVM', 'Mrs.', 'Mr.') embedded directly within the name. This lack of standardization makes accurate searching, joining, and unique identification of patients difficult, and complicates parsing for structured data extraction.</li>
+<li>Issue count: <strong>55417</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT
+  name,
+  age,
+  gender,
+  blood_type,
+  medical_condition,
+  date_of_admission,
+  doctor,
+  hospital,
+  insurance_provider,
+  billing_amount,
+  room_number,
+  admission_type,
+  discharge_date,
+  medication,
+  test_results
+FROM healthcare_dataset
+WHERE
+  name IS NOT NULL
+  AND (
+    (LOWER(name) != name AND UPPER(name) != name) -- Detects mixed casing
+    OR LOWER(name) LIKE '% md' -- Detects trailing ' MD'
+    OR LOWER(name) LIKE '% dvm' -- Detects trailing ' DVM'
+    OR LOWER(name) LIKE 'mrs.%' -- Detects leading 'Mrs.'
+    OR LOWER(name) LIKE 'mr.%' -- Detects leading 'Mr.'
+  );
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;Bobby JacksOn&quot;,
+    &quot;age&quot;: 30,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;B-&quot;,
+    &quot;medical_condition&quot;: &quot;Cancer&quot;,
+    &quot;date_of_admission&quot;: &quot;2024-01-31&quot;,
+    &quot;doctor&quot;: &quot;Matthew Smith&quot;,
+    &quot;hospital&quot;: &quot;Sons and Miller&quot;,
+    &quot;insurance_provider&quot;: &quot;Blue Cross&quot;,
+    &quot;billing_amount&quot;: 18856.281305978155,
+    &quot;room_number&quot;: 328,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2024-02-02&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;LesLie TErRy&quot;,
+    &quot;age&quot;: 62,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Obesity&quot;,
+    &quot;date_of_admission&quot;: &quot;2019-08-20&quot;,
+    &quot;doctor&quot;: &quot;Samantha Davies&quot;,
+    &quot;hospital&quot;: &quot;Kim Inc&quot;,
+    &quot;insurance_provider&quot;: &quot;Medicare&quot;,
+    &quot;billing_amount&quot;: 33643.327286577885,
+    &quot;room_number&quot;: 265,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2019-08-26&quot;,
+    &quot;medication&quot;: &quot;Ibuprofen&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;DaNnY sMitH&quot;,
+    &quot;age&quot;: 76,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A-&quot;,
+    &quot;medical_condition&quot;: &quot;Obesity&quot;,
+    &quot;date_of_admission&quot;: &quot;2022-09-22&quot;,
+    &quot;doctor&quot;: &quot;Tiffany Mitchell&quot;,
+    &quot;hospital&quot;: &quot;Cook PLC&quot;,
+    &quot;insurance_provider&quot;: &quot;Aetna&quot;,
+    &quot;billing_amount&quot;: 27955.096078842456,
+    &quot;room_number&quot;: 205,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2022-10-07&quot;,
+    &quot;medication&quot;: &quot;Aspirin&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p><strong>Overall Verdict:</strong> Red - Significant data quality issues and a critical test execution error found.</p>
+<p><strong>Top Critical/High Issues:</strong></p>
+<ol>
+<li>
+<p><strong>Critical Severity Errored Test: <code>admission_discharge_date_inconsistencies</code></strong></p>
+<ul>
+<li><strong>Finding:</strong> This essential test, designed to verify the consistency and validity of admission and discharge dates, failed to execute due to a SQL syntax error ("Only one SQL statement is allowed."). This prevents any assessment of critical date logic, such as ensuring <code>discharge_date</code> is not before <code>date_of_admission</code>.</li>
+<li><strong>Impact:</strong> High risk of undetected logical inconsistencies and invalid date formats in critical patient timeline data, leading to incorrect calculations and reporting.</li>
+<li><strong>Priority:</strong> Immediate fix required for the SQL query to enable this crucial data quality check.</li>
+</ul>
+</li>
+<li>
+<p><strong>High Severity Failed Test: <code>patient_name_standardization_issues</code></strong></p>
+<ul>
+<li><strong>Finding:</strong> Identified <strong>55,417 records</strong> (a significant portion) in the <code>healthcare_dataset</code> table where patient names exhibit inconsistent capitalization or contain professional titles (e.g., 'MD', 'DVM', 'Mrs.', 'Mr.').</li>
+<li><strong>Impact:</strong> This severe lack of standardization will hinder accurate patient identification, fuzzy matching, data aggregation, and any attempts at structured data parsing from the name field. It directly impacts the usability and reliability of patient demographics.</li>
+<li><strong>Priority:</strong> High. Requires data cleansing and implementation of strict data entry or transformation rules.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Test Coverage Notes:</strong></p>
+<ul>
+<li>A total of 2 data quality tests were attempted.</li>
+<li>One critical test (<code>admission_discharge_date_inconsistencies</code>) failed to execute, meaning the crucial check for date consistency could not be performed. This is a significant gap in coverage.</li>
+<li>One high-severity test (<code>patient_name_standardization_issues</code>) was executed successfully, revealing widespread issues with patient name standardization.</li>
+</ul>
+<p><strong>Suggested Production Guardrails (SQL checks to schedule with each data load):</strong></p>
+<p>To ensure ongoing data quality, the following checks should be implemented and regularly executed as part of data ingestion or transformation processes:</p>
+<ol>
+<li>
+<p><strong>Patient Name Standardization:</strong><br>
+<code>sql
+    SELECT
+      name
+    FROM healthcare_dataset
+    WHERE
+      name IS NOT NULL
+      AND (
+        (LOWER(name) != name AND UPPER(name) != name) -- Detects mixed casing
+        OR LOWER(name) LIKE '% md' -- Detects trailing ' MD'
+        OR LOWER(name) LIKE '% dvm' -- Detects trailing ' DVM'
+        OR LOWER(name) LIKE 'mrs.%' -- Detects leading 'Mrs.'
+        OR LOWER(name) LIKE 'mr.%' -- Detects leading 'Mr.'
+      );</code></p>
+<ul>
+<li><strong>Action:</strong> Records identified by this query should be reviewed and standardized to a consistent format (e.g., proper case, titles removed or placed in a separate field).</li>
+</ul>
+</li>
+<li>
+<p><strong>Admission and Discharge Date Consistency:</strong></p>
+<ul>
+<li><strong>Note:</strong> The SQL for this check needs to be corrected to resolve the "Only one SQL statement is allowed." error before it can be effectively implemented as a guardrail. Assuming the intent was valid SQL for date validation and comparison within the target system, the corrected query would be:<br>
+<code>sql
+SELECT
+  date_of_admission,
+  discharge_date
+FROM healthcare_dataset
+WHERE
+  date_of_admission IS NULL
+  OR discharge_date IS NULL
+  OR date(date_of_admission) IS NULL -- Checks for invalid admission date format
+  OR date(discharge_date) IS NULL -- Checks for invalid discharge date format
+  OR julianday(discharge_date) &lt; julianday(date_of_admission); -- Checks if discharge is before admission</code></li>
+<li><strong>Action:</strong> After correcting the SQL, schedule this check to flag records with invalid date formats or where the discharge date precedes the admission date. These records require immediate investigation and correction.</li>
+</ul>
+</li>
+</ol>
+    </article>
+  </div>
+</body>
+</html>

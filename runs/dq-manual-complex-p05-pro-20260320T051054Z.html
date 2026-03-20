@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-complex-p05-pro-20260320T051054Z</h1>
+<p>Generated at: 2026-03-20 05:12:05 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark complex issues: COMPLEX-P05-PRO</code></li>
+<li>Event log: <code>runs/dq-manual-complex-p05-pro-20260320T051054Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>inconsistent_hospital_name_formatting</td>
+<td style="text-align: right;">8923</td>
+</tr>
+<tr>
+<td>MEDIUM</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>invalid_gender_values</td>
+<td style="text-align: right;">555</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [HIGH/FAIL] inconsistent_hospital_name_formatting (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The 'hospital' column exhibits inconsistent naming conventions, with some names improperly starting with 'and' or ending with a comma. These formatting issues prevent accurate grouping and analysis by hospital, potentially leading to fragmented reporting. This test identifies records with these specific formatting errors.</li>
+<li>Issue count: <strong>8923</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT
+  *
+FROM
+  healthcare_dataset
+WHERE
+  LOWER(hospital) LIKE 'and %'
+  OR hospital LIKE '%,';
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;andrEw waTtS&quot;,
+    &quot;age&quot;: 28,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;O+&quot;,
+    &quot;medical_condition&quot;: &quot;Diabetes&quot;,
+    &quot;date_of_admission&quot;: &quot;2020-11-18&quot;,
+    &quot;doctor&quot;: &quot;Kevin Wells&quot;,
+    &quot;hospital&quot;: &quot;Hernandez Rogers and Vang,&quot;,
+    &quot;insurance_provider&quot;: &quot;Medicare&quot;,
+    &quot;billing_amount&quot;: 37909.78240987528,
+    &quot;room_number&quot;: 450,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2020-12-18&quot;,
+    &quot;medication&quot;: &quot;Ibuprofen&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;CHrisTInA MARtinez&quot;,
+    &quot;age&quot;: 20,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Cancer&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-12-28&quot;,
+    &quot;doctor&quot;: &quot;Suzanne Thomas&quot;,
+    &quot;hospital&quot;: &quot;Powell Robinson and Valdez,&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 45820.46272159459,
+    &quot;room_number&quot;: 277,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2022-01-07&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;dR. EilEEn thomPsoN&quot;,
+    &quot;age&quot;: 59,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Asthma&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-08-02&quot;,
+    &quot;doctor&quot;: &quot;Donna Martinez MD&quot;,
+    &quot;hospital&quot;: &quot;and Sons Smith&quot;,
+    &quot;insurance_provider&quot;: &quot;Aetna&quot;,
+    &quot;billing_amount&quot;: 25250.052428216135,
+    &quot;room_number&quot;: 119,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2021-08-12&quot;,
+    &quot;medication&quot;: &quot;Lipitor&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  }
+]
+</code></pre>
+<h3>2. [MEDIUM/FAIL] invalid_gender_values (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The 'gender' column contains inconsistent values like 'F' in addition to 'Male' and 'Female'. For accurate demographic analysis and reporting, these values must be standardized. This test identifies all records where the gender is not one of the two expected values.</li>
+<li>Issue count: <strong>555</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT
+  *
+FROM
+  healthcare_dataset
+WHERE
+  gender NOT IN ('Male', 'Female');
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;beThaNY MoOrE&quot;,
+    &quot;age&quot;: 55,
+    &quot;gender&quot;: &quot;F&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Cancer&quot;,
+    &quot;date_of_admission&quot;: &quot;2023-04-09&quot;,
+    &quot;doctor&quot;: &quot;Penny Pruitt&quot;,
+    &quot;hospital&quot;: &quot;and Montes Graves, Thomas&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 10300.657311375919,
+    &quot;room_number&quot;: 330,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2023-04-21&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;cathERinE gArDnEr&quot;,
+    &quot;age&quot;: 79,
+    &quot;gender&quot;: &quot;F&quot;,
+    &quot;blood_type&quot;: &quot;A-&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2019-08-19&quot;,
+    &quot;doctor&quot;: &quot;David Ruiz&quot;,
+    &quot;hospital&quot;: &quot;James Ltd&quot;,
+    &quot;insurance_provider&quot;: &quot;Medicare&quot;,
+    &quot;billing_amount&quot;: 25503.673806852043,
+    &quot;room_number&quot;: 144,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2019-08-26&quot;,
+    &quot;medication&quot;: &quot;Lipitor&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;KAThErInE BARnEtt&quot;,
+    &quot;age&quot;: 25,
+    &quot;gender&quot;: &quot;M&quot;,
+    &quot;blood_type&quot;: &quot;AB-&quot;,
+    &quot;medical_condition&quot;: &quot;Arthritis&quot;,
+    &quot;date_of_admission&quot;: &quot;2022-03-15&quot;,
+    &quot;doctor&quot;: &quot;Faith Cook&quot;,
+    &quot;hospital&quot;: &quot;Mcdaniel and Sons&quot;,
+    &quot;insurance_provider&quot;: &quot;Medicare&quot;,
+    &quot;billing_amount&quot;: 13854.645763663511,
+    &quot;room_number&quot;: 328,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2022-04-10&quot;,
+    &quot;medication&quot;: &quot;Penicillin&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p><strong>Overall Verdict: Red</strong></p>
+<p>This data quality run on the <code>healthcare_dataset</code> table has failed, with 2 out of 2 tests identifying significant issues. The presence of a high-severity issue necessitates a "Red" verdict, indicating that the data is not reliable for production use without remediation.</p>
+<p><strong>Top Critical/High Issues:</strong></p>
+<ol>
+<li><strong><code>inconsistent_hospital_name_formatting</code> (High):</strong> A critical issue was found in 8,923 records where hospital names were improperly formatted (e.g., starting with "and" or ending with a comma). This significantly impacts the ability to group and analyze data by facility, leading to inaccurate reporting.</li>
+<li><strong><code>invalid_gender_values</code> (Medium):</strong> A total of 555 records contain gender values other than 'Male' or 'Female'. This inconsistency will skew demographic analysis and reporting.</li>
+</ol>
+<p><strong>Test Coverage Notes:</strong></p>
+<p>The tests effectively targeted and confirmed two major areas of concern initially identified during data profiling: value consistency and formatting. The <code>inconsistent_hospital_name_formatting</code> test was crucial in quantifying the impact of the naming convention issue, while the <code>invalid_gender_values</code> test highlighted the need for data standardization.</p>
+<p><strong>Suggested Production Guardrails:</strong></p>
+<p>To prevent these issues in future data loads, the following SQL checks should be implemented as production guardrails:</p>
+<ol>
+<li><strong>Block records with invalid gender values:</strong><br>
+<code>sql
+    SELECT COUNT(*) FROM healthcare_dataset WHERE gender NOT IN ('Male', 'Female');</code></li>
+<li><strong>Block records with inconsistent hospital name formatting:</strong><br>
+<code>sql
+    SELECT COUNT(*) FROM healthcare_dataset WHERE LOWER(hospital) LIKE 'and %' OR hospital LIKE '%,';</code></li>
+</ol>
+<p>These checks will ensure that new data adheres to the required quality standards before being loaded into the production environment.</p>
+    </article>
+  </div>
+</body>
+</html>

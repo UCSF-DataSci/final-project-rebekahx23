@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+
+body {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #800000; text-decoration-color: #800000">╭─────────────────────────────────────────────────────────────╮</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> run_id: dq-manual-simple-p10-flash-20260320T045820Z         <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> db_url: sqlite:///./runs/db/healthcare_work.sqlite          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> verdict: RED                                                <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> tests: 2 (pass=0, fail=2, error=0)                          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> log: runs/dq-manual-simple-p10-flash-20260320T045820Z.jsonl <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">╰─────────────────────────────────────────────────────────────╯</span>
+<span style="color: #800080; text-decoration-color: #800080; text-decoration: underline">Run Snapshot</span>                                                                                   
+
+<span style="font-weight: bold"> • </span>Overall verdict: <span style="font-weight: bold">RED</span>                                                                        
+<span style="font-weight: bold"> • </span>Total tests: <span style="font-weight: bold">2</span>                                                                              
+<span style="font-weight: bold"> • </span>Passed: <span style="font-weight: bold">0</span>                                                                                   
+<span style="font-weight: bold"> • </span>Failed: <span style="font-weight: bold">2</span>                                                                                   
+<span style="font-weight: bold"> • </span>Errors: <span style="font-weight: bold">0</span>                                                                                   
+<span style="font-style: italic">                                   Data Quality Test Results                                   </span>
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Severity </span>┃<span style="font-weight: bold"> Status </span>┃<span style="font-weight: bold"> Table              </span>┃<span style="font-weight: bold"> Test                          </span>┃<span style="font-weight: bold"> Issues </span>┃<span style="font-weight: bold"> Truncated </span>┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━┩
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">CRITICAL</span><span style="font-weight: bold"> </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ age_out_of_realistic_range    │   1129 │ yes       │
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">HIGH</span><span style="font-weight: bold">     </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ patient_name_is_null_or_empty │   1141 │ yes       │
+└──────────┴────────┴────────────────────┴───────────────────────────────┴────────┴───────────┘
+╭─────────────────────────────────── Supervisor Narrative ────────────────────────────────────╮
+│ Overall Verdict: Red 🔴                                                                     │
+│                                                                                             │
+│ <span style="font-weight: bold">Top Critical and High Issues:</span>                                                               │
+│                                                                                             │
+│ <span style="font-weight: bold"> • Critical:</span> <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">age_out_of_realistic_range</span>                                                     │
+│ <span style="font-weight: bold">    • Description:</span> Impossible age values detected in the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">age</span> column (e.g., 23000 years).    │
+│ <span style="font-weight: bold">    • Issues Found:</span> 1129                                                                    │
+│ <span style="font-weight: bold"> • High:</span> <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">patient_name_is_null_or_empty</span>                                                      │
+│ <span style="font-weight: bold">    • Description:</span> Missing or empty patient names found in the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">name</span> column.                 │
+│ <span style="font-weight: bold">    • Issues Found:</span> 1141                                                                    │
+│                                                                                             │
+│ <span style="font-weight: bold">Test Coverage Notes:</span> A targeted set of 2 data quality tests were executed, focusing on      │
+│ critical issues identified during profiling. Specifically, the tests covered the realistic  │
+│ range of patient ages and the presence of patient names. While important, this run did not  │
+│ include tests for other potential data quality issues such as inconsistent name formatting  │
+│ (e.g., mixed casing, prefixes like &quot;DR.&quot;), or nullability checks on other potentially       │
+│ critical fields beyond the patient name, which were noted in the initial profile summary.   │
+│ All columns are defined as nullable in the schema, indicating broader null checks could be  │
+│ beneficial in future runs.                                                                  │
+│                                                                                             │
+│ <span style="font-weight: bold">Suggested Production Guardrails (SQL checks to schedule for each load):</span>                     │
+│                                                                                             │
+│ To prevent these critical and high-risk data quality issues from recurring in future data   │
+│ loads, the following SQL checks should be implemented as automated guardrails:              │
+│                                                                                             │
+│ <span style="color: #008080; text-decoration-color: #008080"> 1 </span><span style="font-weight: bold">Age out of realistic range check:</span>                                                        │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">*</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> age </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">IS</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">NOT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">NULL</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">AND</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> (age </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&lt;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">OR</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> age </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&gt;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">120</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">);</span><span style="background-color: #272822">     </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="font-weight: bold"> • </span><span style="font-style: italic">Purpose:</span> Ensures that all patient ages fall within a realistic human lifespan.        │
+│ <span style="color: #008080; text-decoration-color: #008080"> 2 </span><span style="font-weight: bold">Patient name null or empty check:</span>                                                        │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">*</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> name </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">IS</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">NULL</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">OR</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">TRIM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">(name) </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">&#x27;&#x27;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">;</span><span style="background-color: #272822">                </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="font-weight: bold"> • </span><span style="font-style: italic">Purpose:</span> Verifies that the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">name</span> column contains a non-null and non-empty value, which │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="font-weight: bold">   </span>is crucial for patient identification.                                                │
+╰─────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+</body>
+</html>

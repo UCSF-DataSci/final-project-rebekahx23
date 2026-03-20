@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-simple-p20-flash-20260320T063256Z</h1>
+<p>Generated at: 2026-03-20 06:33:38 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark simple issues: SIMPLE-P20-FLASH</code></li>
+<li>Event log: <code>runs/dq-manual-simple-p20-flash-20260320T063256Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRITICAL</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>age_outlier_above_plausible_max</td>
+<td style="text-align: right;">1140</td>
+</tr>
+<tr>
+<td>CRITICAL</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>discharge_before_admission_date</td>
+<td style="text-align: right;">1133</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [CRITICAL/FAIL] age_outlier_above_plausible_max (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The <code>age</code> column contains values that are physically impossible for a human (e.g., 49000). This indicates a severe data entry error or corruption, rendering such records highly unreliable for analysis. A plausible maximum age is typically around 120-150 years.</li>
+<li>Issue count: <strong>1140</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT name, age FROM healthcare_dataset WHERE age &gt; 150;
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;KAThEriNE SmiTH&quot;,
+    &quot;age&quot;: 23000
+  },
+  {
+    &quot;name&quot;: &quot;kIm PenA&quot;,
+    &quot;age&quot;: 32000
+  },
+  {
+    &quot;name&quot;: &quot;MiCH&quot;,
+    &quot;age&quot;: 43000
+  }
+]
+</code></pre>
+<h3>2. [CRITICAL/FAIL] discharge_before_admission_date (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: A patient's discharge date must logically be on or after their admission date. Instances where the discharge date precedes the admission date indicate severe data integrity issues that invalidate the temporal sequence of care.</li>
+<li>Issue count: <strong>1133</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT name, date_of_admission, discharge_date FROM healthcare_dataset WHERE julianday(discharge_date) &lt; julianday(date_of_admission);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;ChRISToPHEr BRiGhT&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;discharge_date&quot;: &quot;2020-02-09&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ANNE THOMPSoN&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;discharge_date&quot;: &quot;2024-04-14&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ANthONy reYEs&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;discharge_date&quot;: &quot;2023-11-08&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p><strong>Data Quality Report for <code>healthcare_dataset</code></strong></p>
+<p><strong>Overall Verdict:</strong> RED</p>
+<p><strong>Top Critical Issues:</strong><br>
+*   <strong>Discharge Date Before Admission Date (1133 issues):</strong> A significant number of records show a logical inconsistency where the <code>discharge_date</code> occurs before the <code>date_of_admission</code>. This indicates severe data integrity problems, making the temporal sequence of patient care unreliable.<br>
+*   <strong>Age Outliers Above Plausible Maximum (1140 issues):</strong> A large number of records contain <code>age</code> values exceeding 150, which are physically impossible. This suggests critical data entry errors or corruption, severely impacting the reliability of age-related analysis.</p>
+<p><strong>Test Coverage Notes:</strong><br>
+Two critical data quality tests were executed: <code>discharge_before_admission_date</code> and <code>age_outlier_above_plausible_max</code>, both of which identified severe issues.<br>
+However, several other risk areas identified during profiling were <em>not</em> explicitly covered by dedicated tests in this run. These include:<br>
+*   Inconsistent capitalization and presence of professional titles in <code>name</code> and <code>doctor</code> fields.<br>
+*   The presence of erroneous future dates (e.g., <code>2099-12-31</code>) in <code>date_of_admission</code> and <code>discharge_date</code> (beyond the logical inconsistency of discharge before admission).<br>
+*   Negative values in the <code>billing_amount</code> column.<br>
+*   Varying and complex formats for <code>hospital</code> names.</p>
+<p><strong>Suggested Production Guardrails (SQL checks to schedule with each data load):</strong><br>
+To prevent recurrence of these critical issues, the following SQL checks should be implemented and run as part of the data loading process for <code>healthcare_dataset</code>:</p>
+<ol>
+<li>
+<p><strong>Discharge Date Not Before Admission Date:</strong><br>
+<code>sql
+    SELECT COUNT(*) FROM healthcare_dataset WHERE julianday(discharge_date) &lt; julianday(date_of_admission);</code><br>
+<em>Expected result: 0 issues</em></p>
+</li>
+<li>
+<p><strong>Plausible Age Maximum (e.g., &lt;= 150):</strong><br>
+<code>sql
+    SELECT COUNT(*) FROM healthcare_dataset WHERE age &gt; 150;</code><br>
+<em>Expected result: 0 issues</em></p>
+</li>
+<li>
+<p><strong>Admission and Discharge Dates Not in the Future:</strong><br>
+<code>sql
+    SELECT COUNT(*) FROM healthcare_dataset WHERE date_of_admission &gt; CURRENT_DATE OR discharge_date &gt; CURRENT_DATE;</code><br>
+<em>Expected result: 0 issues</em></p>
+</li>
+<li>
+<p><strong>Positive Billing Amounts:</strong><br>
+<code>sql
+    SELECT COUNT(*) FROM healthcare_dataset WHERE billing_amount &lt; 0;</code><br>
+<em>Expected result: 0 issues</em></p>
+</li>
+</ol>
+    </article>
+  </div>
+</body>
+</html>

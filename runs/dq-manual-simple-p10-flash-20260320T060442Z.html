@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-simple-p10-flash-20260320T060442Z</h1>
+<p>Generated at: 2026-03-20 06:05:07 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark simple issues: SIMPLE-P10-FLASH</code></li>
+<li>Event log: <code>runs/dq-manual-simple-p10-flash-20260320T060442Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>invalid_date_format_check</td>
+<td style="text-align: right;">1135</td>
+</tr>
+<tr>
+<td>MEDIUM</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>hospital_naming_clutter_check</td>
+<td style="text-align: right;">27506</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [HIGH/FAIL] invalid_date_format_check (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The admission and discharge dates are stored as TEXT. This query identifies rows where the date fields do not conform to the required YYYY-MM-DD format (missing leading zeros for months/days or improper length) or represent invalid calendar dates.</li>
+<li>Issue count: <strong>1135</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT * 
+FROM healthcare_dataset 
+WHERE date_of_admission NOT GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'
+   OR discharge_date NOT GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'
+   OR date(date_of_admission) IS NULL
+   OR date(discharge_date) IS NULL
+   OR julianday(discharge_date) &lt; julianday(date_of_admission);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;ChRISTopher BerG&quot;,
+    &quot;age&quot;: 39000,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;AB-&quot;,
+    &quot;medical_condition&quot;: &quot;Cancer&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Heather Day&quot;,
+    &quot;hospital&quot;: &quot;Padilla-Walker&quot;,
+    &quot;insurance_provider&quot;: &quot;UnitedHealthcare&quot;,
+    &quot;billing_amount&quot;: 19784.63106221073,
+    &quot;room_number&quot;: 249,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2021-06-22&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;bRADlEY coMbS&quot;,
+    &quot;age&quot;: 52,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;AB-&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Christopher Butler&quot;,
+    &quot;hospital&quot;: &quot;Stout-Brown&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 37734.74218038699,
+    &quot;room_number&quot;: 251,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2021-06-06&quot;,
+    &quot;medication&quot;: &quot;Penicillin&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;JAMEs Ross&quot;,
+    &quot;age&quot;: 83,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Diabetes&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Michael Baker&quot;,
+    &quot;hospital&quot;: &quot;Cox-Hester&quot;,
+    &quot;insurance_provider&quot;: &quot;Blue Cross&quot;,
+    &quot;billing_amount&quot;: 10352.20848674086,
+    &quot;room_number&quot;: 394,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2024-01-22&quot;,
+    &quot;medication&quot;: &quot;Aspirin&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  }
+]
+</code></pre>
+<h3>2. [MEDIUM/FAIL] hospital_naming_clutter_check (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: Hospital names contain noise such as "and", "Inc", "LLC", or stray commas. This test flags records containing these patterns, which prevents accurate entity resolution and categorical grouping of hospitals.</li>
+<li>Issue count: <strong>27506</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT * 
+FROM healthcare_dataset 
+WHERE LOWER(hospital) LIKE '%and %'
+   OR LOWER(hospital) LIKE '%inc%'
+   OR LOWER(hospital) LIKE '%llc%'
+   OR hospital LIKE '%,%'
+   OR hospital LIKE 'and %'
+   OR hospital LIKE '%,';
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;Bobby JacksOn&quot;,
+    &quot;age&quot;: 30,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;B-&quot;,
+    &quot;medical_condition&quot;: &quot;Cancer&quot;,
+    &quot;date_of_admission&quot;: &quot;2024-01-31&quot;,
+    &quot;doctor&quot;: &quot;Matthew Smith&quot;,
+    &quot;hospital&quot;: &quot;Sons and Miller&quot;,
+    &quot;insurance_provider&quot;: &quot;Blue Cross&quot;,
+    &quot;billing_amount&quot;: 18856.281305978155,
+    &quot;room_number&quot;: 328,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2024-02-02&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;LesLie TErRy&quot;,
+    &quot;age&quot;: 62,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Obesity&quot;,
+    &quot;date_of_admission&quot;: &quot;2019-08-20&quot;,
+    &quot;doctor&quot;: &quot;Samantha Davies&quot;,
+    &quot;hospital&quot;: &quot;Kim Inc&quot;,
+    &quot;insurance_provider&quot;: &quot;Medicare&quot;,
+    &quot;billing_amount&quot;: 33643.327286577885,
+    &quot;room_number&quot;: 265,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2019-08-26&quot;,
+    &quot;medication&quot;: &quot;Ibuprofen&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;andrEw waTtS&quot;,
+    &quot;age&quot;: 28,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;O+&quot;,
+    &quot;medical_condition&quot;: &quot;Diabetes&quot;,
+    &quot;date_of_admission&quot;: &quot;2020-11-18&quot;,
+    &quot;doctor&quot;: &quot;Kevin Wells&quot;,
+    &quot;hospital&quot;: &quot;Hernandez Rogers and Vang,&quot;,
+    &quot;insurance_provider&quot;: &quot;Medicare&quot;,
+    &quot;billing_amount&quot;: 37909.78240987528,
+    &quot;room_number&quot;: 450,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2020-12-18&quot;,
+    &quot;medication&quot;: &quot;Ibuprofen&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<h3>Data Quality Execution Summary: <code>healthcare_dataset</code></h3>
+<p><strong>Overall Verdict:</strong> RED (Significant data integrity issues requiring remediation)</p>
+<h4>Critical/High Issues</h4>
+<ul>
+<li><strong>Temporal Data Corruption:</strong> The <code>invalid_date_format_check</code> (High Severity) flagged 1,135 records. A major discovery is the prevalence of the sentinel date <code>2099-12-31</code> in the <code>date_of_admission</code> field. This indicates a system-level default that renders temporal analysis unreliable for this subset of data.</li>
+<li><strong>Entity Resolution Obstacles:</strong> The <code>hospital_naming_clutter_check</code> (Medium Severity) flagged 27,506 records. The dataset contains inconsistent, non-normalized hospital names containing noise (e.g., 'and', 'Inc', 'LLC', trailing punctuation), making accurate grouping and master data management impossible without a robust normalization pipeline.</li>
+</ul>
+<h4>Test Coverage Notes</h4>
+<ul>
+<li><strong>Coverage:</strong> Current tests cover foundational integrity (date validity) and categorical cleanup (hospital naming).</li>
+<li><strong>Limitations:</strong> Further analysis is required for other categorical fields (e.g., <code>doctor</code>, <code>gender</code>, <code>insurance_provider</code>) and numerical outlier detection in <code>billing_amount</code>.</li>
+</ul>
+<h4>Suggested Production Guardrails (SQL Validation Rules)</h4>
+<p>To prevent these issues during future ingestion, implement the following checks at the load-balancing/ELT layer:<br>
+1.  <strong>Date Integrity Check:</strong><br>
+<code>sql
+    -- Reject records where admission date is a known sentinel or outside expected range
+    SELECT COUNT(*) FROM table WHERE date_of_admission = '2099-12-31' OR date_of_admission &gt; CURRENT_DATE;</code><br>
+2.  <strong>Naming Normalization Check (for staging):</strong><br>
+<code>sql
+    -- Identify records requiring string scrubbing before loading into production dimensions
+    SELECT COUNT(*) FROM table WHERE hospital REGEXP '[[:punct:]]|(Inc|LLC|and)\\b';</code><br>
+3.  <strong>Schema Enforcement:</strong> Explicitly cast <code>date_of_admission</code> and <code>discharge_date</code> to <code>DATE</code> types and enforce non-null constraints on critical identifiers like <code>name</code> and <code>hospital</code>.</p>
+    </article>
+  </div>
+</body>
+</html>

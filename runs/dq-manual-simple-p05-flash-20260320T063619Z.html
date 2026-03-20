@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-simple-p05-flash-20260320T063619Z</h1>
+<p>Generated at: 2026-03-20 06:37:08 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark simple issues: SIMPLE-P05-FLASH</code></li>
+<li>Event log: <code>runs/dq-manual-simple-p05-flash-20260320T063619Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRITICAL</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>admission_discharge_date_order_validity</td>
+<td style="text-align: right;">1140</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>admission_date_not_in_future</td>
+<td style="text-align: right;">1140</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [CRITICAL/FAIL] admission_discharge_date_order_validity (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The discharge date must always be on or after the admission date. Records where the discharge date precedes the admission date indicate a severe data integrity issue, impacting patient timeline and billing accuracy. This was explicitly observed in the profiling summary.</li>
+<li>Issue count: <strong>1140</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT name, date_of_admission, discharge_date FROM healthcare_dataset WHERE date_of_admission IS NOT NULL AND discharge_date IS NOT NULL AND date(date_of_admission) IS NOT NULL AND date(discharge_date) IS NOT NULL AND julianday(discharge_date) &lt; julianday(date_of_admission);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;jOhN hARTmAN&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;discharge_date&quot;: &quot;2023-01-27&quot;
+  },
+  {
+    &quot;name&quot;: &quot;JOhN eLlis&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;discharge_date&quot;: &quot;2023-06-30&quot;
+  },
+  {
+    &quot;name&quot;: &quot;JOsepH SmIth&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;discharge_date&quot;: &quot;2023-05-14&quot;
+  }
+]
+</code></pre>
+<h3>2. [HIGH/FAIL] admission_date_not_in_future (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: An admission date cannot realistically be in the future. Such entries likely represent data entry errors or unhandled placeholder values, compromising the accuracy of patient records and operational planning. A future date ('2099-12-31') was found in the sample.</li>
+<li>Issue count: <strong>1140</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT name, date_of_admission FROM healthcare_dataset WHERE date_of_admission IS NOT NULL AND date(date_of_admission) IS NOT NULL AND julianday(date_of_admission) &gt; julianday(CURRENT_DATE);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;jOhN hARTmAN&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;
+  },
+  {
+    &quot;name&quot;: &quot;JOhN eLlis&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;
+  },
+  {
+    &quot;name&quot;: &quot;JOsepH SmIth&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p><strong>Data Quality Report: <code>healthcare_dataset</code></strong></p>
+<p><strong>Overall Verdict: Red</strong></p>
+<p>This run identified critical and high-severity data integrity issues in the <code>healthcare_dataset</code>, particularly concerning admission and discharge dates. Immediate attention is required to rectify these problems to ensure data reliability.</p>
+<p><strong>Top Critical/High Issues:</strong></p>
+<ul>
+<li>
+<p><strong>Critical Issue: <code>admission_discharge_date_order_validity</code></strong></p>
+<ul>
+<li><strong>Description:</strong> For 1140 records, the <code>discharge_date</code> is reported to occur before the <code>date_of_admission</code>. This is a severe logical inconsistency, indicating fundamental data entry errors or corruption.</li>
+<li><strong>Impact:</strong> Compromises patient treatment timelines, billing accuracy, and overall data trustworthiness.</li>
+</ul>
+</li>
+<li>
+<p><strong>High Issue: <code>admission_date_not_in_future</code></strong></p>
+<ul>
+<li><strong>Description:</strong> 1140 records contain <code>date_of_admission</code> values that are in the future. These are likely data entry errors or unhandled placeholder values.</li>
+<li><strong>Impact:</strong> Distorts active patient counts, invalidates historical analyses, and suggests poor data validation at ingestion.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Test Coverage Notes:</strong><br>
+This data quality run focused primarily on date-related integrity checks (<code>admission_discharge_date_order_validity</code> and <code>admission_date_not_in_future</code>). While these critical tests were executed and revealed significant issues, the overall test coverage is limited. Other potential data quality concerns identified during profiling, such as inconsistent casing in <code>name</code> and <code>hospital</code> fields, and the need for <code>billing_amount</code> validation, were not explicitly covered by automated tests in this run.</p>
+<p><strong>Suggested Production Guardrails (SQL checks to schedule with each data load):</strong></p>
+<p>To prevent recurrence and improve the reliability of the <code>healthcare_dataset</code>, the following SQL checks should be implemented as automated guardrails during each data ingestion or update process:</p>
+<ol>
+<li>
+<p><strong>Ensure Discharge Date is Not Before Admission Date (Critical):</strong><br>
+<code>sql
+    SELECT name, date_of_admission, discharge_date
+    FROM healthcare_dataset
+    WHERE date_of_admission IS NOT NULL
+      AND discharge_date IS NOT NULL
+      AND date(date_of_admission) IS NOT NULL
+      AND date(discharge_date) IS NOT NULL
+      AND julianday(discharge_date) &lt; julianday(date_of_admission);</code><br>
+<em>Action:</em> Flag any records returned by this query for immediate correction and halt load if issues exceed a defined threshold.</p>
+</li>
+<li>
+<p><strong>Prevent Future Admission Dates (High):</strong><br>
+<code>sql
+    SELECT name, date_of_admission
+    FROM healthcare_dataset
+    WHERE date_of_admission IS NOT NULL
+      AND date(date_of_admission) IS NOT NULL
+      AND julianday(date_of_admission) &gt; julianday(CURRENT_DATE);</code><br>
+<em>Action:</em> Flag any records returned by this query and investigate data entry processes. Consider rejecting records with future dates.</p>
+</li>
+<li>
+<p><strong>Standardize <code>name</code> Casing (Moderate - Future Enhancement):</strong></p>
+<ul>
+<li>Implement a process to standardize the casing of the <code>name</code> column, e.g., to Title Case upon ingestion.</li>
+<li><em>Example (conceptual, actual implementation may vary by SQL dialect):</em> <code>UPDATE healthcare_dataset SET name = INITCAP(name);</code> or a custom function.</li>
+</ul>
+</li>
+<li>
+<p><strong>Standardize <code>hospital</code> Names (Moderate - Future Enhancement):</strong></p>
+<ul>
+<li>Develop and apply a robust cleaning routine to standardize hospital names, removing or consistentizing organizational designators.</li>
+<li><em>Example (conceptual):</em> <code>UPDATE healthcare_dataset SET hospital = REGEXP_REPLACE(hospital, '( PLC| LLC| and| Inc)', '', 'g');</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Validate <code>billing_amount</code> for Negative Values (Low - Future Enhancement):</strong><br>
+<code>sql
+    SELECT name, billing_amount
+    FROM healthcare_dataset
+    WHERE billing_amount &lt; 0;</code><br>
+<em>Action:</em> Investigate and correct any negative billing amounts.</p>
+</li>
+</ol>
+<p>These guardrails will help enforce data integrity and improve the overall quality of the <code>healthcare_dataset</code> going forward.</p>
+    </article>
+  </div>
+</body>
+</html>

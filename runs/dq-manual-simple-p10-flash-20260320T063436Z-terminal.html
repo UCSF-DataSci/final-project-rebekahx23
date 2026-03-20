@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+
+body {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #800000; text-decoration-color: #800000">╭─────────────────────────────────────────────────────────────╮</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> run_id: dq-manual-simple-p10-flash-20260320T063436Z         <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> db_url: sqlite:///./runs/db/healthcare_work.sqlite          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> verdict: RED                                                <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> tests: 2 (pass=0, fail=2, error=0)                          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> log: runs/dq-manual-simple-p10-flash-20260320T063436Z.jsonl <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">╰─────────────────────────────────────────────────────────────╯</span>
+<span style="color: #800080; text-decoration-color: #800080; text-decoration: underline">Run Snapshot</span>                                                                                                                       
+
+<span style="font-weight: bold"> • </span>Overall verdict: <span style="font-weight: bold">RED</span>                                                                                                            
+<span style="font-weight: bold"> • </span>Total tests: <span style="font-weight: bold">2</span>                                                                                                                  
+<span style="font-weight: bold"> • </span>Passed: <span style="font-weight: bold">0</span>                                                                                                                       
+<span style="font-weight: bold"> • </span>Failed: <span style="font-weight: bold">2</span>                                                                                                                       
+<span style="font-weight: bold"> • </span>Errors: <span style="font-weight: bold">0</span>                                                                                                                       
+<span style="font-style: italic">                                    Data Quality Test Results                                    </span>
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Severity </span>┃<span style="font-weight: bold"> Status </span>┃<span style="font-weight: bold"> Table              </span>┃<span style="font-weight: bold"> Test                            </span>┃<span style="font-weight: bold"> Issues </span>┃<span style="font-weight: bold"> Truncated </span>┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━┩
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">CRITICAL</span><span style="font-weight: bold"> </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ age_outlier_check               │   1130 │ yes       │
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">HIGH</span><span style="font-weight: bold">     </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ discharge_before_admission_date │   1131 │ yes       │
+└──────────┴────────┴────────────────────┴─────────────────────────────────┴────────┴───────────┘
+╭───────────────────────────────────────────────────── Supervisor Narrative ──────────────────────────────────────────────────────╮
+│ <span style="font-weight: bold">Data Quality Report: SIMPLE-P10-FLASH</span>                                                                                           │
+│                                                                                                                                 │
+│ <span style="font-weight: bold">Overall Verdict: Red</span>                                                                                                            │
+│                                                                                                                                 │
+│ This run indicates significant data quality issues that require immediate attention. Both critical and high-severity tests      │
+│ failed, impacting key data fields.                                                                                              │
+│                                                                                                                                 │
+│ <span style="font-weight: bold">Top Critical/High Issues:</span>                                                                                                       │
+│                                                                                                                                 │
+│ <span style="font-weight: bold"> • Critical (1 test):</span> <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">age_outlier_check</span> detected 1130 rows where the age is greater than 150, indicating impossible age values. │
+│ <span style="font-weight: bold">   </span>This is a severe data entry error that will heavily skew any age-related analysis.                                           │
+│ <span style="font-weight: bold"> • High (1 test):</span> <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">discharge_before_admission_date</span> found 1131 instances where the discharge date is earlier than the admission   │
+│ <span style="font-weight: bold">   </span>date, pointing to logical errors in date recording. This will lead to incorrect calculations of hospital stay duration and   │
+│ <span style="font-weight: bold">   </span>flawed patient journey analysis.                                                                                             │
+│                                                                                                                                 │
+│ <span style="font-weight: bold">Test Coverage Notes:</span>                                                                                                            │
+│                                                                                                                                 │
+│ A total of two data quality tests were executed for the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">healthcare_dataset</span> table, both of which failed, highlighting            │
+│ fundamental data integrity problems.                                                                                            │
+│                                                                                                                                 │
+│ <span style="font-weight: bold">Suggested Production Guardrails (SQL checks to schedule each load):</span>                                                             │
+│                                                                                                                                 │
+│ To prevent these issues from recurring, the following SQL checks should be implemented as guardrails during each data load or   │
+│ update process:                                                                                                                 │
+│                                                                                                                                 │
+│ <span style="color: #008080; text-decoration-color: #008080"> 1 </span><span style="font-weight: bold">Age Validity Check:</span>                                                                                                          │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                                                            </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">ALTER</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">TABLE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">ADD</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">CONSTRAINT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> chk_age_valid </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">CHECK</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> (age </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&lt;=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">150</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">);</span><span style="background-color: #272822">                                            </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                                                            </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>This constraint will ensure that no <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">age</span> values exceeding 150 are inserted or updated into the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">healthcare_dataset</span> table.      │
+│ <span style="color: #008080; text-decoration-color: #008080"> 2 </span><span style="font-weight: bold">Discharge Date Not Before Admission Date:</span>                                                                                    │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                                                            </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">ALTER</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">TABLE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">ADD</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">CONSTRAINT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> chk_discharge_admission_date </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">CHECK</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> (julianday(discharge_date) </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&gt;=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="background-color: #272822">            </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">julianday(date_of_admission));</span><span style="background-color: #272822">                                                                                             </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                                                            </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>This constraint will enforce that the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">discharge_date</span> is always on or after the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">date_of_admission</span>, preventing logical errors  │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>in date recording.                                                                                                           │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+</body>
+</html>

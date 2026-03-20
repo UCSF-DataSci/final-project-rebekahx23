@@ -1,0 +1,73 @@
+{
+  "artifact_type": "dq_experiment",
+  "generated_at_utc": "2026-03-20T04:24:53.336755+00:00",
+  "settings": {
+    "tables": [
+      "healthcare_dataset"
+    ],
+    "table_row_counts": {
+      "healthcare_dataset": 59999
+    },
+    "reference_table_rows": 59999,
+    "ground_truth": "runs/lab-ground-truth-20260320T040440Z.json",
+    "models": "gemini-2.5-flash",
+    "sample_pcts": "0.5",
+    "batches": "1",
+    "token_caps": "1000",
+    "seeds": "1",
+    "max_sample_size": 50,
+    "input_cost_per_1m": 0.15,
+    "output_cost_per_1m": 0.6,
+    "db_url": "sqlite:///./demo_data_quality.db"
+  },
+  "runs": [
+    {
+      "run_id": "dq-exp-20260320T042451Z-001",
+      "model": "gemini-2.5-flash",
+      "sample_pct": 0.5,
+      "sample_size": 50,
+      "batches": 1,
+      "token_cap": 1000,
+      "seed": 1,
+      "run_seconds": 1.5770822080085054,
+      "run_exit_code": 1,
+      "eval_exit_code": -1,
+      "status": "run_failed",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "prompt_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": null,
+      "error_message": "Traceback (most recent call last):\n  File \"/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiohttp/connector.py\", line 1152, in _create_direct_connection\n    hosts = await asyncio.shield(host_resolved)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiohttp/connector.py\", line 874, in _resolve_host\n    addrs = await self._resolver.resolve(host, port, family=self._family)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/aiohttp/resolver.py\", line 33, in resolve\n    infos = await self._loop.getaddrinfo(\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/asyncio/base_events.py\", line 867, in getaddrinfo\n    return await self.run_in_executor(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/concurrent/futures/thread.py\", line 58, in run\n    result = self.fn(*self.args, **self.kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    }
+  ],
+  "aggregated": [
+    {
+      "model": "gemini-2.5-flash",
+      "sample_pct": 0.5,
+      "batches": 1,
+      "token_cap": 1000,
+      "runs_total": 1,
+      "runs_success": 0,
+      "precision_mean": 0.0,
+      "recall_mean": 0.0,
+      "f1_mean": 0.0,
+      "precision_std": 0.0,
+      "recall_std": 0.0,
+      "f1_std": 0.0,
+      "tokens_mean": 0.0,
+      "seconds_mean": 0.0,
+      "cost_mean_usd": null
+    }
+  ],
+  "best_configs": {
+    "best_f1": null,
+    "best_recall": null,
+    "best_f1_per_cost": null
+  }
+}

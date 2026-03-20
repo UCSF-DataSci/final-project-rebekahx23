@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+
+body {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #800000; text-decoration-color: #800000">╭─────────────────────────────────────────────────────────────╮</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> run_id: dq-manual-simple-p10-flash-20260320T060256Z         <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> db_url: sqlite:///./runs/db/healthcare_work.sqlite          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> verdict: RED                                                <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> tests: 2 (pass=0, fail=2, error=0)                          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> log: runs/dq-manual-simple-p10-flash-20260320T060256Z.jsonl <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">╰─────────────────────────────────────────────────────────────╯</span>
+<span style="color: #800080; text-decoration-color: #800080; text-decoration: underline">Run Snapshot</span>                                                                                                                       
+
+<span style="font-weight: bold"> • </span>Overall verdict: <span style="font-weight: bold">RED</span>                                                                                                            
+<span style="font-weight: bold"> • </span>Total tests: <span style="font-weight: bold">2</span>                                                                                                                  
+<span style="font-weight: bold"> • </span>Passed: <span style="font-weight: bold">0</span>                                                                                                                       
+<span style="font-weight: bold"> • </span>Failed: <span style="font-weight: bold">2</span>                                                                                                                       
+<span style="font-weight: bold"> • </span>Errors: <span style="font-weight: bold">0</span>                                                                                                                       
+<span style="font-style: italic">                                          Data Quality Test Results                                           </span>
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Severity </span>┃<span style="font-weight: bold"> Status </span>┃<span style="font-weight: bold"> Table                   </span>┃<span style="font-weight: bold"> Test                                    </span>┃<span style="font-weight: bold"> Issues </span>┃<span style="font-weight: bold"> Truncated </span>┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━┩
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">HIGH</span><span style="font-weight: bold">     </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ main.healthcare_dataset │ test_admission_discharge_chronology     │   1135 │ yes       │
+│<span style="font-weight: bold"> </span><span style="color: #808000; text-decoration-color: #808000; font-weight: bold">MEDIUM</span><span style="font-weight: bold">   </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ main.healthcare_dataset │ test_hospital_name_formatting_artifacts │   9090 │ yes       │
+└──────────┴────────┴─────────────────────────┴─────────────────────────────────────────┴────────┴───────────┘
+╭───────────────────────────────────────────────────── Supervisor Narrative ──────────────────────────────────────────────────────╮
+│ The healthcare_dataset failed critical quality checks with a Red verdict. Major findings include 1,135 records with futuristic  │
+│ admission date placeholders (2099-12-31) and correlated age corruption (values &gt;30,000). Additionally, over 9,000 records       │
+│ contain hospital naming artifacts like trailing commas and leading &#x27;and&#x27; prefixes, which will break data aggregation.           │
+│ Investigation into the source system&#x27;s handling of null or missing dates is required.                                           │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+</body>
+</html>

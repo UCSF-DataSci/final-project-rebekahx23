@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-simple-p20-pro-20260320T064210Z</h1>
+<p>Generated at: 2026-03-20 06:43:34 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark simple issues: SIMPLE-P20-PRO</code></li>
+<li>Event log: <code>runs/dq-manual-simple-p20-pro-20260320T064210Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRITICAL</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>unrealistic_age</td>
+<td style="text-align: right;">1135</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>discharge_before_admission</td>
+<td style="text-align: right;">1131</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [CRITICAL/FAIL] unrealistic_age (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: Based on the profile, at least one age value (29500) is impossibly high. This test identifies patients with ages outside a plausible human lifespan (e.g., 0-120) to flag extreme outliers and potential data entry errors.</li>
+<li>Issue count: <strong>1135</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT
+      *
+    FROM
+      healthcare_dataset
+    WHERE
+      age &lt; 0 OR age &gt; 120;
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;NICOLE HUGhes&quot;,
+    &quot;age&quot;: 20000,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;O+&quot;,
+    &quot;medical_condition&quot;: &quot;Arthritis&quot;,
+    &quot;date_of_admission&quot;: &quot;2020-12-04&quot;,
+    &quot;doctor&quot;: &quot;Lori Sanchez&quot;,
+    &quot;hospital&quot;: &quot;Shaw-Young&quot;,
+    &quot;insurance_provider&quot;: &quot;Blue Cross&quot;,
+    &quot;billing_amount&quot;: 34617.788344937246,
+    &quot;room_number&quot;: 320,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2020-12-08&quot;,
+    &quot;medication&quot;: &quot;Ibuprofen&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;jOHN GarciA&quot;,
+    &quot;age&quot;: 29500,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Diabetes&quot;,
+    &quot;date_of_admission&quot;: &quot;2023-08-29&quot;,
+    &quot;doctor&quot;: &quot;Jesse Thomas&quot;,
+    &quot;hospital&quot;: &quot;Sons Miller and&quot;,
+    &quot;insurance_provider&quot;: &quot;UnitedHealthcare&quot;,
+    &quot;billing_amount&quot;: 1150.8749860875837,
+    &quot;room_number&quot;: 408,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2023-09-07&quot;,
+    &quot;medication&quot;: &quot;Penicillin&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;sHaUN LonG&quot;,
+    &quot;age&quot;: 41000,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Obesity&quot;,
+    &quot;date_of_admission&quot;: &quot;2024-02-09&quot;,
+    &quot;doctor&quot;: &quot;Jenny Griffith&quot;,
+    &quot;hospital&quot;: &quot;Fritz Henderson Stanton, and&quot;,
+    &quot;insurance_provider&quot;: &quot;UnitedHealthcare&quot;,
+    &quot;billing_amount&quot;: 45902.70764469024,
+    &quot;room_number&quot;: 126,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2024-02-19&quot;,
+    &quot;medication&quot;: &quot;Aspirin&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  }
+]
+</code></pre>
+<h3>2. [HIGH/FAIL] discharge_before_admission (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The profile indicates both admission and discharge dates are stored as text but in a sortable format. A patient's discharge date must logically be on or after their admission date. This test identifies records where this fundamental chronological order is violated, which could indicate data entry errors.</li>
+<li>Issue count: <strong>1131</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT
+      *
+    FROM
+      healthcare_dataset
+    WHERE
+      julianday(discharge_date) &lt; julianday(date_of_admission);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;jOhN hARTmAN&quot;,
+    &quot;age&quot;: 27,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;B-&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Jack Jackson&quot;,
+    &quot;hospital&quot;: &quot;Bullock-Ramsey&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 49402.29837252711,
+    &quot;room_number&quot;: 263,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2023-01-27&quot;,
+    &quot;medication&quot;: &quot;Lipitor&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;HunTeR mckAy&quot;,
+    &quot;age&quot;: 85,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;A-&quot;,
+    &quot;medical_condition&quot;: &quot;Arthritis&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Dominic Mitchell&quot;,
+    &quot;hospital&quot;: &quot;Newton-White&quot;,
+    &quot;insurance_provider&quot;: &quot;UnitedHealthcare&quot;,
+    &quot;billing_amount&quot;: 40014.7623484579,
+    &quot;room_number&quot;: 425,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2021-06-03&quot;,
+    &quot;medication&quot;: &quot;Aspirin&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;Jeffrey tuRNER&quot;,
+    &quot;age&quot;: 85,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;O+&quot;,
+    &quot;medical_condition&quot;: &quot;Obesity&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Matthew Carter&quot;,
+    &quot;hospital&quot;: &quot;Kim Rosario, and Hammond&quot;,
+    &quot;insurance_provider&quot;: &quot;Aetna&quot;,
+    &quot;billing_amount&quot;: 39957.94062222976,
+    &quot;room_number&quot;: 211,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2020-06-01&quot;,
+    &quot;medication&quot;: &quot;Ibuprofen&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p><strong>Overall Verdict: RED</strong></p>
+<p>This is a <strong>red</strong> quality run. Both tests failed, revealing significant, systemic data integrity issues that must be addressed before this data can be considered reliable.</p>
+<h3>Top Issues Found</h3>
+<ol>
+<li>
+<p><strong>Critical: <code>unrealistic_age</code></strong></p>
+<ul>
+<li><strong>Finding:</strong> 1,135 patient records have ages outside the plausible human range of 0-120 years.</li>
+<li><strong>Impact:</strong> This points to severe data entry or processing errors. Age is a fundamental field for almost any analysis, and these widespread errors make demographic-based queries untrustworthy.</li>
+</ul>
+</li>
+<li>
+<p><strong>High: <code>discharge_before_admission</code></strong></p>
+<ul>
+<li><strong>Finding:</strong> 1,131 records show a discharge date that is earlier than the admission date, which is logically impossible.</li>
+<li><strong>Impact:</strong> This fundamental chronological error invalidates any analysis related to length of stay, treatment timelines, or billing cycles for the affected records.</li>
+</ul>
+</li>
+</ol>
+<h3>Test Coverage Notes</h3>
+<ul>
+<li><strong>Covered:</strong> The two most severe issues identified during profiling—impossible age values and chronological inconsistencies in admission/discharge dates—were tested and confirmed to be widespread problems.</li>
+<li><strong>Not Covered:</strong> The initial data profile also noted cosmetic and formatting issues in text-based fields like <code>name</code> and <code>hospital</code>. While less critical than the logical errors found, these inconsistencies can still hinder record matching and analytics. These should be addressed in a subsequent data cleaning effort.</li>
+</ul>
+<h3>Suggested Production Guardrails</h3>
+<p>To prevent these issues in future data loads, the following SQL checks should be integrated into your data pipeline. A non-zero count from either query should halt the pipeline or trigger an immediate alert.</p>
+<ol>
+<li>
+<p><strong>Check for Unrealistic Ages:</strong><br>
+<code>sql
+    SELECT COUNT(*)
+    FROM healthcare_dataset
+    WHERE age &lt; 0 OR age &gt; 120;</code></p>
+</li>
+<li>
+<p><strong>Check for Discharge Before Admission:</strong><br>
+<code>sql
+    SELECT COUNT(*)
+    FROM healthcare_dataset
+    WHERE julianday(discharge_date) &lt; julianday(date_of_admission);</code></p>
+</li>
+</ol>
+    </article>
+  </div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+
+body {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #800000; text-decoration-color: #800000">╭───────────────────────────────────────────────────────────╮</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> run_id: dq-manual-simple-p10-pro-20260320T050147Z         <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> db_url: sqlite:///./runs/db/healthcare_work.sqlite        <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> verdict: RED                                              <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> tests: 2 (pass=0, fail=2, error=0)                        <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> log: runs/dq-manual-simple-p10-pro-20260320T050147Z.jsonl <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">╰───────────────────────────────────────────────────────────╯</span>
+<span style="color: #800080; text-decoration-color: #800080; text-decoration: underline">Run Snapshot</span>                                                                                   
+
+<span style="font-weight: bold"> • </span>Overall verdict: <span style="font-weight: bold">RED</span>                                                                        
+<span style="font-weight: bold"> • </span>Total tests: <span style="font-weight: bold">2</span>                                                                              
+<span style="font-weight: bold"> • </span>Passed: <span style="font-weight: bold">0</span>                                                                                   
+<span style="font-weight: bold"> • </span>Failed: <span style="font-weight: bold">2</span>                                                                                   
+<span style="font-weight: bold"> • </span>Errors: <span style="font-weight: bold">0</span>                                                                                   
+<span style="font-style: italic">                                Data Quality Test Results                                </span>
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Severity </span>┃<span style="font-weight: bold"> Status </span>┃<span style="font-weight: bold"> Table              </span>┃<span style="font-weight: bold"> Test                    </span>┃<span style="font-weight: bold"> Issues </span>┃<span style="font-weight: bold"> Truncated </span>┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━┩
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">CRITICAL</span><span style="font-weight: bold"> </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ unrealistic_patient_age │   1129 │ yes       │
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">HIGH</span><span style="font-weight: bold">     </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ missing_patient_name    │   1141 │ yes       │
+└──────────┴────────┴────────────────────┴─────────────────────────┴────────┴───────────┘
+╭─────────────────────────────────── Supervisor Narrative ────────────────────────────────────╮
+│ <span style="font-weight: bold">Data Quality Run Summary</span>                                                                    │
+│                                                                                             │
+│ <span style="font-weight: bold">Overall Verdict:</span> RED                                                                        │
+│                                                                                             │
+│ This data quality run resulted in a RED verdict due to multiple critical and high-severity  │
+│ failures. Immediate attention is required to address these significant data issues.         │
+│                                                                                             │
+│ <span style="font-weight: bold">Top Critical/High Issues:</span>                                                                   │
+│                                                                                             │
+│ <span style="font-weight: bold"> • </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">unrealistic_patient_age</span><span style="font-weight: bold"> (Critical):</span> A critical failure was detected with 1129 records    │
+│ <span style="font-weight: bold">   </span>showing patient ages outside the acceptable range of 0-120 years. This indicates a       │
+│ <span style="font-weight: bold">   </span>severe systemic issue with data entry or data processing that fundamentally corrupts     │
+│ <span style="font-weight: bold">   </span>patient records.                                                                         │
+│ <span style="font-weight: bold"> • </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">missing_patient_name</span><span style="font-weight: bold"> (High):</span> A high-severity failure was found in 1141 records where the │
+│ <span style="font-weight: bold">   </span>patient&#x27;s name is missing. This compromises the usability of the data for any            │
+│ <span style="font-weight: bold">   </span>patient-centric analysis or operations.                                                  │
+│                                                                                             │
+│ <span style="font-weight: bold">Test Coverage Notes:</span>                                                                        │
+│                                                                                             │
+│ <span style="font-weight: bold"> • </span>The executed tests covered the most urgent issues identified during the initial data     │
+│ <span style="font-weight: bold">   </span>profiling.                                                                               │
+│ <span style="font-weight: bold"> • </span>However, several other potential issues were identified by the profiler but were not     │
+│ <span style="font-weight: bold">   </span>included in this test run. These include:                                                │
+│ <span style="font-weight: bold">    • </span>Inconsistent capitalization and formatting in the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">name</span> column.                        │
+│ <span style="font-weight: bold">    • </span>Dates stored as <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">TEXT</span>, which could lead to incorrect sorting and filtering.            │
+│ <span style="font-weight: bold">    • </span>Trailing characters in the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">hospital</span> column.                                           │
+│ <span style="font-weight: bold"> • </span>It is recommended to expand test coverage in subsequent runs to include these additional │
+│ <span style="font-weight: bold">   </span>data quality dimensions.                                                                 │
+│                                                                                             │
+│ <span style="font-weight: bold">Suggested Production Guardrails:</span>                                                            │
+│                                                                                             │
+│ To prevent these data quality issues from recurring in future data loads, the following SQL │
+│ checks should be implemented as production guardrails:                                      │
+│                                                                                             │
+│ <span style="font-weight: bold"> • Check for unrealistic patient ages:</span>                                                      │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">*</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> age </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&lt;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">OR</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> age </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&gt;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">120</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">;</span><span style="background-color: #272822">                           </span> │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="font-weight: bold"> • Check for missing patient names:</span>                                                         │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">*</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> name </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">IS</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">NULL</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">;</span><span style="background-color: #272822">                                   </span> │
+│ <span style="font-weight: bold">   </span><span style="background-color: #272822">                                                                                        </span> │
+│                                                                                             │
+│ These checks should be run on every new batch of data before it is loaded into the          │
+│ production environment. Any data that fails these checks should be quarantined for review.  │
+╰─────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+</body>
+</html>

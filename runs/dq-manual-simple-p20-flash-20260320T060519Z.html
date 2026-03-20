@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-simple-p20-flash-20260320T060519Z</h1>
+<p>Generated at: 2026-03-20 06:05:43 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark simple issues: SIMPLE-P20-FLASH</code></li>
+<li>Event log: <code>runs/dq-manual-simple-p20-flash-20260320T060519Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>invalid_age_outliers</td>
+<td style="text-align: right;">1139</td>
+</tr>
+<tr>
+<td>MEDIUM</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>missing_patient_names</td>
+<td style="text-align: right;">1127</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [HIGH/FAIL] invalid_age_outliers (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The age column contains values that are biologically impossible (e.g., &gt; 120), indicating data entry errors that invalidate age-based analysis.</li>
+<li>Issue count: <strong>1139</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT * 
+FROM healthcare_dataset 
+WHERE age &lt; 0 OR age &gt; 120;
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;ChRISTopher BerG&quot;,
+    &quot;age&quot;: 39000,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;AB-&quot;,
+    &quot;medical_condition&quot;: &quot;Cancer&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Heather Day&quot;,
+    &quot;hospital&quot;: &quot;Padilla-Walker&quot;,
+    &quot;insurance_provider&quot;: &quot;UnitedHealthcare&quot;,
+    &quot;billing_amount&quot;: 19784.63106221073,
+    &quot;room_number&quot;: 249,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2021-06-22&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;aaRon MARtiNeZ&quot;,
+    &quot;age&quot;: 29000,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A-&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2023-08-13&quot;,
+    &quot;doctor&quot;: &quot;Douglas Mayo&quot;,
+    &quot;hospital&quot;: &quot;Lyons-Blair&quot;,
+    &quot;insurance_provider&quot;: &quot;Medicare&quot;,
+    &quot;billing_amount&quot;: 7999.586879604188,
+    &quot;room_number&quot;: 288,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2023-09-05&quot;,
+    &quot;medication&quot;: &quot;Lipitor&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;NicOlE RodriGUEz&quot;,
+    &quot;age&quot;: 25000,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;AB+&quot;,
+    &quot;medical_condition&quot;: &quot;Diabetes&quot;,
+    &quot;date_of_admission&quot;: &quot;2020-01-17&quot;,
+    &quot;doctor&quot;: &quot;Lynn Young&quot;,
+    &quot;hospital&quot;: &quot;Poole Inc&quot;,
+    &quot;insurance_provider&quot;: &quot;Blue Cross&quot;,
+    &quot;billing_amount&quot;: 8408.94935429195,
+    &quot;room_number&quot;: 285,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2020-02-10&quot;,
+    &quot;medication&quot;: &quot;Lipitor&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  }
+]
+</code></pre>
+<h3>2. [MEDIUM/FAIL] missing_patient_names (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: Missing values in the 'name' column prevent accurate patient identification and tracking across medical records.</li>
+<li>Issue count: <strong>1127</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT * 
+FROM healthcare_dataset 
+WHERE name IS NULL OR TRIM(name) = '';
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: null,
+    &quot;age&quot;: 49,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A-&quot;,
+    &quot;medical_condition&quot;: &quot;Asthma&quot;,
+    &quot;date_of_admission&quot;: &quot;2022-06-24&quot;,
+    &quot;doctor&quot;: &quot;Matthew Thomas&quot;,
+    &quot;hospital&quot;: &quot;and Howell Brooks, Rogers&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 25966.328610220968,
+    &quot;room_number&quot;: 418,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2022-07-18&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: null,
+    &quot;age&quot;: 20,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;B+&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;doctor&quot;: &quot;Tracey Spence&quot;,
+    &quot;hospital&quot;: &quot;Lewis Livingston, Lowe and&quot;,
+    &quot;insurance_provider&quot;: &quot;Blue Cross&quot;,
+    &quot;billing_amount&quot;: 10663.910005038557,
+    &quot;room_number&quot;: 104,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2019-10-16&quot;,
+    &quot;medication&quot;: &quot;Aspirin&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: null,
+    &quot;age&quot;: 81,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;B+&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-10-25&quot;,
+    &quot;doctor&quot;: &quot;Elizabeth Morales&quot;,
+    &quot;hospital&quot;: &quot;and Smith, Tucker Cross&quot;,
+    &quot;insurance_provider&quot;: &quot;UnitedHealthcare&quot;,
+    &quot;billing_amount&quot;: 46377.86514923159,
+    &quot;room_number&quot;: 275,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2021-11-22&quot;,
+    &quot;medication&quot;: &quot;Lipitor&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p>The data quality assessment of the <code>healthcare_dataset</code> is complete. Both planned tests identified significant data quality issues.</p>
+<h3>Overall Verdict: RED</h3>
+<p>The dataset contains critical integrity issues that render it unreliable for primary analysis. Immediate action is required to sanitize the data and patch the ingestion pipeline.</p>
+<h3>Top Critical Issues</h3>
+<ol>
+<li><strong>High Severity: <code>invalid_age_outliers</code> (Fail)</strong>: 1,139 records feature biologically impossible ages (e.g., 23,500, 51,500), indicating a critical breakdown in data entry or transformation logic.</li>
+<li><strong>Medium Severity: <code>missing_patient_names</code> (Fail)</strong>: 1,127 records are missing <code>name</code> values, severely impacting patient identity management and longitudinal tracking.</li>
+</ol>
+<h3>Test Coverage Notes</h3>
+<ul>
+<li>Tests focused on primary identifiers and core demographic integrity (age).</li>
+<li>Coverage is sufficient to flag the current state of degradation but highlights a need for broader validation (e.g., date of birth vs. admission date checks, billing amount validation).</li>
+</ul>
+<h3>Suggested Production Guardrails (SQL Checks)</h3>
+<p>To be implemented as blocking checks in the ETL pipeline before committing data:</p>
+<ol>
+<li><strong>Age Validation:</strong><br>
+<code>sql
+    -- Reject or flag rows where age is out of expected medical range
+    SELECT COUNT(*) FROM healthcare_dataset WHERE age &lt; 0 OR age &gt; 120;</code></li>
+<li><strong>Completeness Validation:</strong><br>
+<code>sql
+    -- Reject or flag rows where critical identifiers are missing
+    SELECT COUNT(*) FROM healthcare_dataset WHERE name IS NULL OR TRIM(name) = '';</code></li>
+<li><strong>Cross-Field Logic (Suggested):</strong><br>
+<code>sql
+    -- Flag records where admission date is logically inconsistent
+    SELECT COUNT(*) FROM healthcare_dataset WHERE discharge_date &lt; date_of_admission;</code></li>
+</ol>
+<p><strong>Recommendation:</strong> Halt downstream consumption of this dataset until the root cause of these anomalies is identified and mitigated.</p>
+    </article>
+  </div>
+</body>
+</html>

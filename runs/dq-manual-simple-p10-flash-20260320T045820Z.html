@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-simple-p10-flash-20260320T045820Z</h1>
+<p>Generated at: 2026-03-20 04:59:06 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark simple issues: SIMPLE-P10-FLASH</code></li>
+<li>Event log: <code>runs/dq-manual-simple-p10-flash-20260320T045820Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRITICAL</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>age_out_of_realistic_range</td>
+<td style="text-align: right;">1129</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>patient_name_is_null_or_empty</td>
+<td style="text-align: right;">1141</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [CRITICAL/FAIL] age_out_of_realistic_range (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: An age value of 23000 was observed, which is clearly erroneous and represents an impossible human age. This test identifies records where the 'age' column falls outside a realistic human age range (e.g., 0 to 120 years), indicating critical data entry errors that could severely impact analysis and patient care decisions.</li>
+<li>Issue count: <strong>1129</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT * FROM healthcare_dataset WHERE age IS NOT NULL AND (age &lt; 0 OR age &gt; 120);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;EMILY JOHNSOn&quot;,
+    &quot;age&quot;: 28000,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Asthma&quot;,
+    &quot;date_of_admission&quot;: &quot;2023-12-20&quot;,
+    &quot;doctor&quot;: &quot;Taylor Newton&quot;,
+    &quot;hospital&quot;: &quot;Nunez-Humphrey&quot;,
+    &quot;insurance_provider&quot;: &quot;UnitedHealthcare&quot;,
+    &quot;billing_amount&quot;: 48145.11095104189,
+    &quot;room_number&quot;: 389,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2023-12-24&quot;,
+    &quot;medication&quot;: &quot;Ibuprofen&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;dANIEL schmIdt&quot;,
+    &quot;age&quot;: 41500,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;B+&quot;,
+    &quot;medical_condition&quot;: &quot;Asthma&quot;,
+    &quot;date_of_admission&quot;: &quot;2022-11-15&quot;,
+    &quot;doctor&quot;: &quot;Denise Galloway&quot;,
+    &quot;hospital&quot;: &quot;Hammond Ltd&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 23762.203579059587,
+    &quot;room_number&quot;: 465,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2022-11-22&quot;,
+    &quot;medication&quot;: &quot;Penicillin&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ChAd MorEnO&quot;,
+    &quot;age&quot;: 43500,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;AB+&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2020-08-26&quot;,
+    &quot;doctor&quot;: &quot;Connie Boyd&quot;,
+    &quot;hospital&quot;: &quot;Inc Skinner&quot;,
+    &quot;insurance_provider&quot;: &quot;Aetna&quot;,
+    &quot;billing_amount&quot;: 46814.011195111656,
+    &quot;room_number&quot;: 134,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2020-08-27&quot;,
+    &quot;medication&quot;: &quot;Penicillin&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  }
+]
+</code></pre>
+<h3>2. [HIGH/FAIL] patient_name_is_null_or_empty (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The 'name' column was observed to contain NULL values. A patient's name is a critical identifier for record linkage, accurate communication, and proper patient management. Missing or empty patient names significantly hinder data usability and integrity in a healthcare context.</li>
+<li>Issue count: <strong>1141</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT * FROM healthcare_dataset WHERE name IS NULL OR TRIM(name) = '';
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: null,
+    &quot;age&quot;: 48,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;B+&quot;,
+    &quot;medical_condition&quot;: &quot;Asthma&quot;,
+    &quot;date_of_admission&quot;: &quot;2020-01-21&quot;,
+    &quot;doctor&quot;: &quot;Gregory Smith&quot;,
+    &quot;hospital&quot;: &quot;Williams-Davis&quot;,
+    &quot;insurance_provider&quot;: &quot;Aetna&quot;,
+    &quot;billing_amount&quot;: 17695.911622343818,
+    &quot;room_number&quot;: 295,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2020-02-09&quot;,
+    &quot;medication&quot;: &quot;Lipitor&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: null,
+    &quot;age&quot;: 30,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;AB+&quot;,
+    &quot;medical_condition&quot;: &quot;Diabetes&quot;,
+    &quot;date_of_admission&quot;: &quot;2020-01-17&quot;,
+    &quot;doctor&quot;: &quot;Lynn Young&quot;,
+    &quot;hospital&quot;: &quot;Poole Inc&quot;,
+    &quot;insurance_provider&quot;: &quot;Blue Cross&quot;,
+    &quot;billing_amount&quot;: 8408.94935429195,
+    &quot;room_number&quot;: 285,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2020-02-10&quot;,
+    &quot;medication&quot;: &quot;Lipitor&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: null,
+    &quot;age&quot;: 58,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;A-&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2020-05-08&quot;,
+    &quot;doctor&quot;: &quot;Jennifer Larson&quot;,
+    &quot;hospital&quot;: &quot;Khan, and Rodriguez Fischer&quot;,
+    &quot;insurance_provider&quot;: &quot;Medicare&quot;,
+    &quot;billing_amount&quot;: 19183.168885395542,
+    &quot;room_number&quot;: 378,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2020-06-01&quot;,
+    &quot;medication&quot;: &quot;Aspirin&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p>Overall Verdict: Red 🔴</p>
+<p><strong>Top Critical and High Issues:</strong></p>
+<ul>
+<li><strong>Critical:</strong> <code>age_out_of_realistic_range</code><ul>
+<li><strong>Description:</strong> Impossible age values detected in the <code>age</code> column (e.g., 23000 years).</li>
+<li><strong>Issues Found:</strong> 1129</li>
+</ul>
+</li>
+<li><strong>High:</strong> <code>patient_name_is_null_or_empty</code><ul>
+<li><strong>Description:</strong> Missing or empty patient names found in the <code>name</code> column.</li>
+<li><strong>Issues Found:</strong> 1141</li>
+</ul>
+</li>
+</ul>
+<p><strong>Test Coverage Notes:</strong><br>
+A targeted set of 2 data quality tests were executed, focusing on critical issues identified during profiling. Specifically, the tests covered the realistic range of patient ages and the presence of patient names. While important, this run did not include tests for other potential data quality issues such as inconsistent name formatting (e.g., mixed casing, prefixes like "DR."), or nullability checks on other potentially critical fields beyond the patient name, which were noted in the initial profile summary. All columns are defined as nullable in the schema, indicating broader null checks could be beneficial in future runs.</p>
+<p><strong>Suggested Production Guardrails (SQL checks to schedule for each load):</strong></p>
+<p>To prevent these critical and high-risk data quality issues from recurring in future data loads, the following SQL checks should be implemented as automated guardrails:</p>
+<ol>
+<li>
+<p><strong>Age out of realistic range check:</strong><br>
+<code>sql
+    SELECT * FROM healthcare_dataset WHERE age IS NOT NULL AND (age &lt; 0 OR age &gt; 120);</code></p>
+<ul>
+<li><em>Purpose:</em> Ensures that all patient ages fall within a realistic human lifespan.</li>
+</ul>
+</li>
+<li>
+<p><strong>Patient name null or empty check:</strong><br>
+<code>sql
+    SELECT * FROM healthcare_dataset WHERE name IS NULL OR TRIM(name) = '';</code></p>
+<ul>
+<li><em>Purpose:</em> Verifies that the <code>name</code> column contains a non-null and non-empty value, which is crucial for patient identification.</li>
+</ul>
+</li>
+</ol>
+    </article>
+  </div>
+</body>
+</html>

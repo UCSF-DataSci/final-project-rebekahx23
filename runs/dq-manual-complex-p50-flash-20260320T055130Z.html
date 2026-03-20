@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-complex-p50-flash-20260320T055130Z</h1>
+<p>Generated at: 2026-03-20 05:52:25 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark complex issues: COMPLEX-P50-FLASH</code></li>
+<li>Event log: <code>runs/dq-manual-complex-p50-flash-20260320T055130Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRITICAL</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>admission_discharge_date_logic_and_format</td>
+<td style="text-align: right;">555</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>gender_standardization_check</td>
+<td style="text-align: right;">555</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [CRITICAL/FAIL] admission_discharge_date_logic_and_format (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The <code>date_of_admission</code> and <code>discharge_date</code> columns are stored as text. This test identifies records where either date column cannot be parsed into a valid 'YYYY-MM-DD' date, or where the <code>discharge_date</code> logically occurs before the <code>date_of_admission</code>. Such inconsistencies are critical for accurate patient stay analysis.</li>
+<li>Issue count: <strong>555</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT name, date_of_admission, discharge_date FROM healthcare_dataset WHERE date(date_of_admission) IS NULL OR date(discharge_date) IS NULL OR julianday(discharge_date) &lt; julianday(date_of_admission);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;apRil SANTIAgO&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-01-30&quot;,
+    &quot;discharge_date&quot;: &quot;2021-01-29&quot;
+  },
+  {
+    &quot;name&quot;: &quot;jEremY fRye&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-07-25&quot;,
+    &quot;discharge_date&quot;: &quot;2021-07-24&quot;
+  },
+  {
+    &quot;name&quot;: &quot;mARissA mORa&quot;,
+    &quot;date_of_admission&quot;: &quot;2022-05-17&quot;,
+    &quot;discharge_date&quot;: &quot;2022-05-16&quot;
+  }
+]
+</code></pre>
+<h3>2. [HIGH/FAIL] gender_standardization_check (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The <code>gender</code> column exhibits inconsistent representations (e.g., 'Female', 'Male', 'F'). This test identifies records where the gender value is not one of the expected standardized full forms ('Female' or 'Male'), indicating a need for data standardization.</li>
+<li>Issue count: <strong>555</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT name, gender FROM healthcare_dataset WHERE LOWER(gender) NOT IN ('female', 'male') AND gender IS NOT NULL;
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;mr. KenNEth MoORE&quot;,
+    &quot;gender&quot;: &quot;F&quot;
+  },
+  {
+    &quot;name&quot;: &quot;beThaNY MoOrE&quot;,
+    &quot;gender&quot;: &quot;F&quot;
+  },
+  {
+    &quot;name&quot;: &quot;MariA JOHnStON&quot;,
+    &quot;gender&quot;: &quot;M&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p><strong>Data Quality Report</strong></p>
+<p><strong>Overall Verdict: RED</strong> 🔴</p>
+<p><strong>Summary of Findings:</strong><br>
+The data quality run identified significant issues across critical and high-severity checks. Out of 2 tests executed, both failed, indicating substantial data quality problems that require immediate attention.</p>
+<p><strong>Top Critical/High Issues:</strong></p>
+<ul>
+<li><strong>Critical Issue: <code>admission_discharge_date_logic_and_format</code> (555 issues)</strong><ul>
+<li><strong>Description</strong>: This test identified a high number of records (555) where the <code>date_of_admission</code> or <code>discharge_date</code> columns either contain invalid date formats (not 'YYYY-MM-DD') or, more critically, where the <code>discharge_date</code> occurs before the <code>date_of_admission</code>. This is a fundamental logical inconsistency that severely impacts the reliability of patient stay analysis and other time-sensitive metrics.</li>
+</ul>
+</li>
+<li><strong>High Issue: <code>gender_standardization_check</code> (555 issues)</strong><ul>
+<li><strong>Description</strong>: A substantial number of records (555) were found with inconsistent representations in the <code>gender</code> column. Values such as 'F' or 'M' are present instead of the expected standardized forms ('Female' or 'Male'). This inconsistency hinders accurate demographic analysis and reporting.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Test Coverage Notes:</strong><br>
+The executed tests focused on two crucial aspects of data quality: the logical consistency and format of admission/discharge dates, and the standardization of gender representations. While the coverage is focused, the high number of issues found in both areas suggests a broad problem with data entry and validation for these fields. Further profiling might be needed to uncover other potential issues not covered by these specific checks.</p>
+<p><strong>Suggested Production Guardrails (SQL checks to schedule with each data load):</strong></p>
+<p>To prevent these issues from recurring, the following SQL checks should be implemented and scheduled as part of the data loading process. These checks can either block loads with invalid data or flag them for immediate correction.</p>
+<ol>
+<li>
+<p><strong>For <code>admission_discharge_date_logic_and_format</code>:</strong><br>
+<code>sql
+    -- Prevent discharge dates from being before admission dates or invalid date formats
+    -- This assumes SQLite-compatible date functions. Adjust for other SQL dialects (e.g., TRY_CAST for PostgreSQL/SQL Server, TO_DATE for Oracle)
+    SELECT COUNT(*)
+    FROM healthcare_dataset
+    WHERE
+        date(date_of_admission) IS NULL OR
+        date(discharge_date) IS NULL OR
+        julianday(discharge_date) &lt; julianday(date_of_admission);</code></p>
+<ul>
+<li><strong>Action if count &gt; 0</strong>: Fail the data load and alert for immediate data correction.</li>
+</ul>
+</li>
+<li>
+<p><strong>For <code>gender_standardization_check</code>:</strong><br>
+<code>sql
+    -- Ensure gender values are standardized to 'Female' or 'Male'
+    SELECT COUNT(*)
+    FROM healthcare_dataset
+    WHERE
+        LOWER(gender) NOT IN ('female', 'male') AND gender IS NOT NULL;</code></p>
+<ul>
+<li><strong>Action if count &gt; 0</strong>: Fail the data load and alert for immediate data standardization, or implement a data transformation step to standardize values before loading.</li>
+</ul>
+</li>
+</ol>
+<p>Implementing these guardrails will help enforce data integrity at the point of ingestion and significantly improve the reliability of the <code>healthcare_dataset</code> table.</p>
+    </article>
+  </div>
+</body>
+</html>

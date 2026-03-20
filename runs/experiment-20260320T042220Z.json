@@ -1,0 +1,73 @@
+{
+  "artifact_type": "dq_experiment",
+  "generated_at_utc": "2026-03-20T04:22:20.115744+00:00",
+  "settings": {
+    "tables": [
+      "healthcare_dataset"
+    ],
+    "table_row_counts": {
+      "healthcare_dataset": 59999
+    },
+    "reference_table_rows": 59999,
+    "ground_truth": "runs/lab-ground-truth-20260320T040440Z.json",
+    "models": "gemini-2.5-flash",
+    "sample_pcts": "0.5",
+    "batches": "1",
+    "token_caps": "0",
+    "seeds": "1",
+    "max_sample_size": 150,
+    "input_cost_per_1m": 0.15,
+    "output_cost_per_1m": 0.6,
+    "db_url": "sqlite:///./demo_data_quality.db"
+  },
+  "runs": [
+    {
+      "run_id": "dq-exp-20260320T042219Z-001",
+      "model": "gemini-2.5-flash",
+      "sample_pct": 0.5,
+      "sample_size": 150,
+      "batches": 1,
+      "token_cap": 0,
+      "seed": 1,
+      "run_seconds": 0.3288839999877382,
+      "run_exit_code": 1,
+      "eval_exit_code": -1,
+      "status": "run_failed",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "prompt_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": null,
+      "error_message": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/Users/rebekahxing/final-project-rebekahx23/data_quality_agent/run_job.py\", line 835, in <module>\n    main()\n  File \"/Users/rebekahxing/final-project-rebekahx23/data_quality_agent/run_job.py\", line 761, in main\n    response_text, events = asyncio.run(\n                            ^^^^^^^^^^^^\n  File \"/opt/anaconda3/lib/python3.11/asyncio/runners.py\", line 190, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"/opt/anaconda3/lib/python3.11/asyncio/runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/anaconda3/lib/python3.11/asyncio/base_events.py\", line 653, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"/Users/rebekahxing/final-project-rebekahx23/data_quality_agent/run_job.py\", line 669, in run_job\n    from google.adk.runners import InMemoryRunner\nModuleNotFoundError: No module named 'google.adk'"
+    }
+  ],
+  "aggregated": [
+    {
+      "model": "gemini-2.5-flash",
+      "sample_pct": 0.5,
+      "batches": 1,
+      "token_cap": 0,
+      "runs_total": 1,
+      "runs_success": 0,
+      "precision_mean": 0.0,
+      "recall_mean": 0.0,
+      "f1_mean": 0.0,
+      "precision_std": 0.0,
+      "recall_std": 0.0,
+      "f1_std": 0.0,
+      "tokens_mean": 0.0,
+      "seconds_mean": 0.0,
+      "cost_mean_usd": null
+    }
+  ],
+  "best_configs": {
+    "best_f1": null,
+    "best_recall": null,
+    "best_f1_per_cost": null
+  }
+}

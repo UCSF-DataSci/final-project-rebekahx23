@@ -1,0 +1,197 @@
+{
+  "artifact_type": "manual_benchmark_summary",
+  "generated_at_utc": "2026-03-20T05:15:50.840443+00:00",
+  "source_pattern": "manual-session-*.json",
+  "source_files": [
+    "runs/manual-session-simple-20260320T050604Z.json",
+    "runs/manual-session-complex-20260320T051522Z.json"
+  ],
+  "aggregated_rows": [
+    {
+      "scenario": "complex",
+      "model": "gemini-2.5-flash",
+      "profile": "P05",
+      "run_count": 1,
+      "delta_precision_mean": 1.0,
+      "delta_recall_mean": 1.0,
+      "delta_f1_mean": 1.0,
+      "prompt_tokens_mean": 146887.0,
+      "output_tokens_mean": 3062.0,
+      "total_tokens_mean": 153746.0,
+      "cost_mean_usd": null
+    },
+    {
+      "scenario": "complex",
+      "model": "gemini-2.5-flash",
+      "profile": "P10",
+      "run_count": 1,
+      "delta_precision_mean": 0.0,
+      "delta_recall_mean": 0.0,
+      "delta_f1_mean": 0.0,
+      "prompt_tokens_mean": 73674.0,
+      "output_tokens_mean": 2487.0,
+      "total_tokens_mean": 81122.0,
+      "cost_mean_usd": null
+    },
+    {
+      "scenario": "complex",
+      "model": "gemini-2.5-flash",
+      "profile": "P20",
+      "run_count": 1,
+      "delta_precision_mean": 1.0,
+      "delta_recall_mean": 0.5,
+      "delta_f1_mean": 0.6666666666666666,
+      "prompt_tokens_mean": 361029.0,
+      "output_tokens_mean": 2262.0,
+      "total_tokens_mean": 368650.0,
+      "cost_mean_usd": null
+    },
+    {
+      "scenario": "complex",
+      "model": "gemini-2.5-pro",
+      "profile": "P05",
+      "run_count": 1,
+      "delta_precision_mean": 0.0,
+      "delta_recall_mean": 0.0,
+      "delta_f1_mean": 0.0,
+      "prompt_tokens_mean": 603329.0,
+      "output_tokens_mean": 1448.0,
+      "total_tokens_mean": 608189.0,
+      "cost_mean_usd": null
+    },
+    {
+      "scenario": "complex",
+      "model": "gemini-2.5-pro",
+      "profile": "P10",
+      "run_count": 1,
+      "delta_precision_mean": 1.0,
+      "delta_recall_mean": 0.5,
+      "delta_f1_mean": 0.6666666666666666,
+      "prompt_tokens_mean": 623046.0,
+      "output_tokens_mean": 2044.0,
+      "total_tokens_mean": 630142.0,
+      "cost_mean_usd": null
+    },
+    {
+      "scenario": "complex",
+      "model": "gemini-2.5-pro",
+      "profile": "P20",
+      "run_count": 1,
+      "delta_precision_mean": 1.0,
+      "delta_recall_mean": 0.25170068027210885,
+      "delta_f1_mean": 0.40217391304347827,
+      "prompt_tokens_mean": 644268.0,
+      "output_tokens_mean": 1549.0,
+      "total_tokens_mean": 649955.0,
+      "cost_mean_usd": null
+    },
+    {
+      "scenario": "simple",
+      "model": "gemini-2.5-flash",
+      "profile": "P05",
+      "run_count": 1,
+      "delta_precision_mean": 0.9796999117387467,
+      "delta_recall_mean": 0.33697632058287796,
+      "delta_f1_mean": 0.5014682629320081,
+      "prompt_tokens_mean": 121042.0,
+      "output_tokens_mean": 2632.0,
+      "total_tokens_mean": 129054.0,
+      "cost_mean_usd": null
+    },
+    {
+      "scenario": "simple",
+      "model": "gemini-2.5-flash",
+      "profile": "P10",
+      "run_count": 1,
+      "delta_precision_mean": 0.9779735682819384,
+      "delta_recall_mean": 0.5043162199000454,
+      "delta_f1_mean": 0.6654676258992804,
+      "prompt_tokens_mean": 617580.0,
+      "output_tokens_mean": 2273.0,
+      "total_tokens_mean": 622702.0,
+      "cost_mean_usd": null
+    },
+    {
+      "scenario": "simple",
+      "model": "gemini-2.5-flash",
+      "profile": "P20",
+      "run_count": 1,
+      "delta_precision_mean": 0.9762532981530343,
+      "delta_recall_mean": 0.5066179826563213,
+      "delta_f1_mean": 0.6670673076923077,
+      "prompt_tokens_mean": 276785.0,
+      "output_tokens_mean": 2974.0,
+      "total_tokens_mean": 284476.0,
+      "cost_mean_usd": null
+    },
+    {
+      "scenario": "simple",
+      "model": "gemini-2.5-pro",
+      "profile": "P05",
+      "run_count": 1,
+      "delta_precision_mean": 0.9796999117387467,
+      "delta_recall_mean": 0.16962102689486552,
+      "delta_f1_mean": 0.2891754591637358,
+      "prompt_tokens_mean": 319389.0,
+      "output_tokens_mean": 2031.0,
+      "total_tokens_mean": 325740.0,
+      "cost_mean_usd": null
+    },
+    {
+      "scenario": "simple",
+      "model": "gemini-2.5-pro",
+      "profile": "P10",
+      "run_count": 1,
+      "delta_precision_mean": 0.9779735682819384,
+      "delta_recall_mean": 0.6704922983992752,
+      "delta_f1_mean": 0.7955563519082602,
+      "prompt_tokens_mean": 944703.0,
+      "output_tokens_mean": 1407.0,
+      "total_tokens_mean": 949869.0,
+      "cost_mean_usd": null
+    },
+    {
+      "scenario": "simple",
+      "model": "gemini-2.5-pro",
+      "profile": "P20",
+      "run_count": 1,
+      "delta_precision_mean": 0.9814323607427056,
+      "delta_recall_mean": 0.6704922983992752,
+      "delta_f1_mean": 0.7966983671272205,
+      "prompt_tokens_mean": 647008.0,
+      "output_tokens_mean": 1941.0,
+      "total_tokens_mean": 652893.0,
+      "cost_mean_usd": null
+    }
+  ],
+  "recommendations": [
+    {
+      "scenario": "complex",
+      "model": "gemini-2.5-flash",
+      "selected_profile": "P05",
+      "reason": "recall_plateau",
+      "needs_p50_followup": false
+    },
+    {
+      "scenario": "complex",
+      "model": "gemini-2.5-pro",
+      "selected_profile": "P10",
+      "reason": "recall_plateau",
+      "needs_p50_followup": false
+    },
+    {
+      "scenario": "simple",
+      "model": "gemini-2.5-flash",
+      "selected_profile": "P10",
+      "reason": "recall_plateau",
+      "needs_p50_followup": false
+    },
+    {
+      "scenario": "simple",
+      "model": "gemini-2.5-pro",
+      "selected_profile": "P10",
+      "reason": "recall_plateau",
+      "needs_p50_followup": false
+    }
+  ]
+}

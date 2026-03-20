@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-complex-p20-pro-20260320T062028Z</h1>
+<p>Generated at: 2026-03-20 06:21:53 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark complex issues: COMPLEX-P20-PRO</code></li>
+<li>Event log: <code>runs/dq-manual-complex-p20-pro-20260320T062028Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRITICAL</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>temporal_logic_discharge_before_admission</td>
+<td style="text-align: right;">555</td>
+</tr>
+<tr>
+<td>LOW</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>hospital_name_format_irregularities</td>
+<td style="text-align: right;">14525</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [CRITICAL/FAIL] temporal_logic_discharge_before_admission (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: Ensures temporal consistency by verifying that a patient's discharge date does not logically occur before their admission date.</li>
+<li>Issue count: <strong>555</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT * FROM healthcare_dataset WHERE date(discharge_date) &lt; date(date_of_admission);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;ChRISTopher mccLAiN&quot;,
+    &quot;age&quot;: 67,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;O-&quot;,
+    &quot;medical_condition&quot;: &quot;Arthritis&quot;,
+    &quot;date_of_admission&quot;: &quot;2023-05-17&quot;,
+    &quot;doctor&quot;: &quot;Maria Tran&quot;,
+    &quot;hospital&quot;: &quot;Thomas-Huber&quot;,
+    &quot;insurance_provider&quot;: &quot;Medicare&quot;,
+    &quot;billing_amount&quot;: 27309.436760697274,
+    &quot;room_number&quot;: 293,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2023-05-16&quot;,
+    &quot;medication&quot;: &quot;Aspirin&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;jEssiCa GoNzAleS&quot;,
+    &quot;age&quot;: 57,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;O+&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2023-08-28&quot;,
+    &quot;doctor&quot;: &quot;Kimberly Gonzalez&quot;,
+    &quot;hospital&quot;: &quot;Jones and Jones, Turner&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 20545.871762829884,
+    &quot;room_number&quot;: 198,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2023-08-27&quot;,
+    &quot;medication&quot;: &quot;Penicillin&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;lIsA LeWis&quot;,
+    &quot;age&quot;: 83,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;O-&quot;,
+    &quot;medical_condition&quot;: &quot;Asthma&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-11-13&quot;,
+    &quot;doctor&quot;: &quot;Kevin Brown&quot;,
+    &quot;hospital&quot;: &quot;Tran, and Ferrell Garcia&quot;,
+    &quot;insurance_provider&quot;: &quot;Aetna&quot;,
+    &quot;billing_amount&quot;: 18198.058517853886,
+    &quot;room_number&quot;: 308,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2021-11-12&quot;,
+    &quot;medication&quot;: &quot;Ibuprofen&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  }
+]
+</code></pre>
+<h3>2. [LOW/FAIL] hospital_name_format_irregularities (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: Identifies hospital names with structural formatting anomalies such as trailing commas or misplaced conjunctions (e.g., starting or ending with 'and').</li>
+<li>Issue count: <strong>14525</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT * FROM healthcare_dataset WHERE hospital LIKE '%,' OR hospital LIKE '% and' OR LOWER(hospital) LIKE 'and %';
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;andrEw waTtS&quot;,
+    &quot;age&quot;: 28,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;O+&quot;,
+    &quot;medical_condition&quot;: &quot;Diabetes&quot;,
+    &quot;date_of_admission&quot;: &quot;2020-11-18&quot;,
+    &quot;doctor&quot;: &quot;Kevin Wells&quot;,
+    &quot;hospital&quot;: &quot;Hernandez Rogers and Vang,&quot;,
+    &quot;insurance_provider&quot;: &quot;Medicare&quot;,
+    &quot;billing_amount&quot;: 37909.78240987528,
+    &quot;room_number&quot;: 450,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2020-12-18&quot;,
+    &quot;medication&quot;: &quot;Ibuprofen&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;CHrisTInA MARtinez&quot;,
+    &quot;age&quot;: 20,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Cancer&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-12-28&quot;,
+    &quot;doctor&quot;: &quot;Suzanne Thomas&quot;,
+    &quot;hospital&quot;: &quot;Powell Robinson and Valdez,&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 45820.46272159459,
+    &quot;room_number&quot;: 277,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2022-01-07&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;JASmINe aGuIlaR&quot;,
+    &quot;age&quot;: 82,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;AB+&quot;,
+    &quot;medical_condition&quot;: &quot;Asthma&quot;,
+    &quot;date_of_admission&quot;: &quot;2020-07-01&quot;,
+    &quot;doctor&quot;: &quot;Daniel Ferguson&quot;,
+    &quot;hospital&quot;: &quot;Sons Rich and&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 50119.222791548505,
+    &quot;room_number&quot;: 316,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2020-07-14&quot;,
+    &quot;medication&quot;: &quot;Aspirin&quot;,
+    &quot;test_results&quot;: &quot;Abnormal&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<h1>Data Quality Final Report</h1>
+<p><strong>Overall Verdict:</strong> 🔴 RED</p>
+<h3>Top Critical Issues</h3>
+<ul>
+<li><strong>Temporal Logic Anomalies (<code>temporal_logic_discharge_before_admission</code>)</strong>: <strong>555</strong> records were identified in the <code>healthcare_dataset</code> table where the <code>discharge_date</code> is earlier than the <code>date_of_admission</code>. This is a critical data integrity issue indicating systemic errors in data entry or upstream ingestion logic.</li>
+</ul>
+<h3>Other Notable Issues</h3>
+<ul>
+<li><strong>Hospital Name Formatting (<code>hospital_name_format_irregularities</code>)</strong>: <strong>14,525</strong> records in the <code>healthcare_dataset</code> table contained formatting anomalies in the <code>hospital</code> column, such as trailing commas or misplaced conjunctions (e.g., starting/ending with "and"). While low severity, the high volume points to a consistent lack of string normalization at the source.</li>
+</ul>
+<h3>Test Coverage Notes</h3>
+<ul>
+<li><strong>Coverage</strong>: 2 targeted tests were executed on the <code>healthcare_dataset</code> table.</li>
+<li><strong>Scope</strong>: The tests focused on temporal consistency between patient admission and discharge dates, and structural formatting of hospital names. </li>
+<li>Both tests failed, highlighting a need for critical pipeline fixes and broader data standardization efforts.</li>
+</ul>
+<h3>Suggested Production Guardrails</h3>
+<p>To prevent these issues from polluting downstream systems, the following guardrails should be scheduled to run on every load:</p>
+<ol>
+<li>
+<p><strong>Temporal Logic Check (Critical Guardrail)</strong>: <br>
+<em>Action</em>: Fail the load or quarantine the failing rows.<br>
+<code>sql
+   SELECT * FROM healthcare_dataset WHERE date(discharge_date) &lt; date(date_of_admission);</code></p>
+</li>
+<li>
+<p><strong>Hospital Name Standardization (Quality Warning / Transform Check)</strong>:<br>
+<em>Action</em>: Issue a warning, or ideally, implement an ETL transformation to clean these fields during ingestion.<br>
+<code>sql
+   SELECT * FROM healthcare_dataset 
+   WHERE hospital LIKE '%,' 
+      OR hospital LIKE '% and' 
+      OR LOWER(hospital) LIKE 'and %';</code></p>
+</li>
+</ol>
+    </article>
+  </div>
+</body>
+</html>

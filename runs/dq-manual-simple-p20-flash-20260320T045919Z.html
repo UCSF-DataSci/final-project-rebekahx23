@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-simple-p20-flash-20260320T045919Z</h1>
+<p>Generated at: 2026-03-20 05:00:06 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark simple issues: SIMPLE-P20-FLASH</code></li>
+<li>Event log: <code>runs/dq-manual-simple-p20-flash-20260320T045919Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRITICAL</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>admission_after_discharge_date</td>
+<td style="text-align: right;">1133</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>missing_patient_name</td>
+<td style="text-align: right;">1141</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [CRITICAL/FAIL] admission_after_discharge_date (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The admission date cannot logically occur after the discharge date. This indicates a severe data entry or processing error, making the entire patient stay record unreliable and potentially impacting billing, length-of-stay calculations, and patient care timelines.</li>
+<li>Issue count: <strong>1133</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT name, date_of_admission, discharge_date, doctor, hospital FROM healthcare_dataset WHERE julianday(date_of_admission) &gt; julianday(discharge_date);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;Jeffrey tuRNER&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;discharge_date&quot;: &quot;2020-06-01&quot;,
+    &quot;doctor&quot;: &quot;Matthew Carter&quot;,
+    &quot;hospital&quot;: &quot;Kim Rosario, and Hammond&quot;
+  },
+  {
+    &quot;name&quot;: &quot;jEssiCa GoNzAleS&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;discharge_date&quot;: &quot;2023-09-16&quot;,
+    &quot;doctor&quot;: &quot;Kimberly Gonzalez&quot;,
+    &quot;hospital&quot;: &quot;Jones and Jones, Turner&quot;
+  },
+  {
+    &quot;name&quot;: &quot;dr. MATthEW wilkinS&quot;,
+    &quot;date_of_admission&quot;: &quot;2099-12-31&quot;,
+    &quot;discharge_date&quot;: &quot;2021-07-24&quot;,
+    &quot;doctor&quot;: &quot;Seth Nelson&quot;,
+    &quot;hospital&quot;: &quot;PLC Anderson&quot;
+  }
+]
+</code></pre>
+<h3>2. [HIGH/FAIL] missing_patient_name (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: Patient records should always include a name for proper identification, tracking, and reporting. Missing names lead to incomplete data, difficulties in linking records, and potential patient safety issues.</li>
+<li>Issue count: <strong>1141</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT date_of_admission, discharge_date, doctor, hospital FROM healthcare_dataset WHERE name IS NULL OR TRIM(name) = '';
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;date_of_admission&quot;: &quot;2020-01-21&quot;,
+    &quot;discharge_date&quot;: &quot;2020-02-09&quot;,
+    &quot;doctor&quot;: &quot;Gregory Smith&quot;,
+    &quot;hospital&quot;: &quot;Williams-Davis&quot;
+  },
+  {
+    &quot;date_of_admission&quot;: &quot;2020-01-17&quot;,
+    &quot;discharge_date&quot;: &quot;2020-02-10&quot;,
+    &quot;doctor&quot;: &quot;Lynn Young&quot;,
+    &quot;hospital&quot;: &quot;Poole Inc&quot;
+  },
+  {
+    &quot;date_of_admission&quot;: &quot;2020-05-08&quot;,
+    &quot;discharge_date&quot;: &quot;2020-06-01&quot;,
+    &quot;doctor&quot;: &quot;Jennifer Larson&quot;,
+    &quot;hospital&quot;: &quot;Khan, and Rodriguez Fischer&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p><strong>Data Quality Report: healthcare_dataset</strong></p>
+<p><strong>Overall Verdict: 🔴 Red</strong></p>
+<p>All 2 executed data quality tests failed, indicating significant data integrity issues within the <code>healthcare_dataset</code> table. Immediate attention is required to address these critical and high-severity findings.</p>
+<p><strong>Top Issues:</strong></p>
+<ul>
+<li>
+<p><strong>Critical: <code>admission_after_discharge_date</code> (1133 issues)</strong><br>
+    This is the most severe finding. There are 1133 instances where the <code>date_of_admission</code> is <em>after</em> the <code>discharge_date</code>. This logical inconsistency renders these patient records highly unreliable for any analysis, reporting, or operational processes such as billing, length-of-stay calculations, and patient care timelines. The sample data shows a recurring <code>date_of_admission</code> of '2099-12-31', strongly suggesting a placeholder or erroneous default value.</p>
+</li>
+<li>
+<p><strong>High: <code>missing_patient_name</code> (1141 issues)</strong><br>
+    A substantial number of patient records (1141) are missing a <code>name</code>. This high-severity issue severely impacts the ability to uniquely identify, track, and report on patients, leading to incomplete data and potential patient safety concerns.</p>
+</li>
+</ul>
+<p><strong>Test Coverage Notes:</strong></p>
+<p>This data quality run executed 2 tests, focusing on critical date logic and the completeness of patient identification. While these tests revealed significant issues, it's important to note that the coverage is specific to these identified risk areas. Further profiling and testing may uncover additional quality concerns within other columns (e.g., inconsistent casing in names/doctors, varied hospital naming conventions).</p>
+<p><strong>Suggested Production Guardrails:</strong></p>
+<p>To prevent these issues from recurring and to ensure data quality with each load, the following SQL checks should be scheduled:</p>
+<ol>
+<li>
+<p><strong>Prevent Admission Date After Discharge Date (Critical):</strong><br>
+    This check should be run <em>before</em> or <em>during</em> each data load to ensure the temporal integrity of patient admission and discharge records. Records failing this check should either be rejected or flagged for immediate manual correction.</p>
+<p><code>sql
+SELECT name, date_of_admission, discharge_date, doctor, hospital
+FROM healthcare_dataset
+WHERE julianday(date_of_admission) &gt; julianday(discharge_date);</code></p>
+</li>
+<li>
+<p><strong>Ensure Patient Name Completeness (High):</strong><br>
+    This check should be implemented to ensure that all new or updated patient records contain a valid name. Records with missing names should be flagged for correction or prevented from being inserted/updated until a name is provided.</p>
+<p><code>sql
+SELECT date_of_admission, discharge_date, doctor, hospital
+FROM healthcare_dataset
+WHERE name IS NULL OR TRIM(name) = '';</code></p>
+</li>
+</ol>
+    </article>
+  </div>
+</body>
+</html>

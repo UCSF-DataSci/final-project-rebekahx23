@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+
+body {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #800000; text-decoration-color: #800000">╭─────────────────────────────────────────────────────────────╮</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> run_id: dq-manual-simple-p20-flash-20260320T045919Z         <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> db_url: sqlite:///./runs/db/healthcare_work.sqlite          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> verdict: RED                                                <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> tests: 2 (pass=0, fail=2, error=0)                          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> log: runs/dq-manual-simple-p20-flash-20260320T045919Z.jsonl <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">╰─────────────────────────────────────────────────────────────╯</span>
+<span style="color: #800080; text-decoration-color: #800080; text-decoration: underline">Run Snapshot</span>                                                                                   
+
+<span style="font-weight: bold"> • </span>Overall verdict: <span style="font-weight: bold">RED</span>                                                                        
+<span style="font-weight: bold"> • </span>Total tests: <span style="font-weight: bold">2</span>                                                                              
+<span style="font-weight: bold"> • </span>Passed: <span style="font-weight: bold">0</span>                                                                                   
+<span style="font-weight: bold"> • </span>Failed: <span style="font-weight: bold">2</span>                                                                                   
+<span style="font-weight: bold"> • </span>Errors: <span style="font-weight: bold">0</span>                                                                                   
+<span style="font-style: italic">                                   Data Quality Test Results                                   </span>
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Severity </span>┃<span style="font-weight: bold"> Status </span>┃<span style="font-weight: bold"> Table              </span>┃<span style="font-weight: bold"> Test                          </span>┃<span style="font-weight: bold"> Issues </span>┃<span style="font-weight: bold"> Truncated </span>┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━┩
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">CRITICAL</span><span style="font-weight: bold"> </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ admission_after_discharge_da… │   1133 │ yes       │
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">HIGH</span><span style="font-weight: bold">     </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ missing_patient_name          │   1141 │ yes       │
+└──────────┴────────┴────────────────────┴───────────────────────────────┴────────┴───────────┘
+╭─────────────────────────────────── Supervisor Narrative ────────────────────────────────────╮
+│ <span style="font-weight: bold">Data Quality Report: healthcare_dataset</span>                                                     │
+│                                                                                             │
+│ <span style="font-weight: bold">Overall Verdict: 🔴 Red</span>                                                                     │
+│                                                                                             │
+│ All 2 executed data quality tests failed, indicating significant data integrity issues      │
+│ within the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">healthcare_dataset</span> table. Immediate attention is required to address these       │
+│ critical and high-severity findings.                                                        │
+│                                                                                             │
+│ <span style="font-weight: bold">Top Issues:</span>                                                                                 │
+│                                                                                             │
+│ <span style="font-weight: bold"> • Critical: </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">admission_after_discharge_date</span><span style="font-weight: bold"> (1133 issues)</span> This is the most severe finding.  │
+│ <span style="font-weight: bold">   </span>There are 1133 instances where the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">date_of_admission</span> is <span style="font-style: italic">after</span> the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">discharge_date</span>. This   │
+│ <span style="font-weight: bold">   </span>logical inconsistency renders these patient records highly unreliable for any analysis,  │
+│ <span style="font-weight: bold">   </span>reporting, or operational processes such as billing, length-of-stay calculations, and    │
+│ <span style="font-weight: bold">   </span>patient care timelines. The sample data shows a recurring <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">date_of_admission</span> of           │
+│ <span style="font-weight: bold">   </span>&#x27;2099-12-31&#x27;, strongly suggesting a placeholder or erroneous default value.              │
+│ <span style="font-weight: bold"> • High: </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">missing_patient_name</span><span style="font-weight: bold"> (1141 issues)</span> A substantial number of patient records (1141)  │
+│ <span style="font-weight: bold">   </span>are missing a <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">name</span>. This high-severity issue severely impacts the ability to uniquely    │
+│ <span style="font-weight: bold">   </span>identify, track, and report on patients, leading to incomplete data and potential        │
+│ <span style="font-weight: bold">   </span>patient safety concerns.                                                                 │
+│                                                                                             │
+│ <span style="font-weight: bold">Test Coverage Notes:</span>                                                                        │
+│                                                                                             │
+│ This data quality run executed 2 tests, focusing on critical date logic and the             │
+│ completeness of patient identification. While these tests revealed significant issues, it&#x27;s │
+│ important to note that the coverage is specific to these identified risk areas. Further     │
+│ profiling and testing may uncover additional quality concerns within other columns (e.g.,   │
+│ inconsistent casing in names/doctors, varied hospital naming conventions).                  │
+│                                                                                             │
+│ <span style="font-weight: bold">Suggested Production Guardrails:</span>                                                            │
+│                                                                                             │
+│ To prevent these issues from recurring and to ensure data quality with each load, the       │
+│ following SQL checks should be scheduled:                                                   │
+│                                                                                             │
+│ <span style="color: #008080; text-decoration-color: #008080"> 1 </span><span style="font-weight: bold">Prevent Admission Date After Discharge Date (Critical):</span> This check should be run <span style="font-style: italic">before</span>  │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>or <span style="font-style: italic">during</span> each data load to ensure the temporal integrity of patient admission and       │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>discharge records. Records failing this check should either be rejected or flagged for   │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>immediate manual correction.                                                             │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> name, date_of_admission, discharge_date, doctor, hospital</span><span style="background-color: #272822">                       </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset</span><span style="background-color: #272822">                                                                </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> julianday(date_of_admission) </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&gt;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> julianday(discharge_date);</span><span style="background-color: #272822">                        </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="color: #008080; text-decoration-color: #008080"> 2 </span><span style="font-weight: bold">Ensure Patient Name Completeness (High):</span> This check should be implemented to ensure that │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>all new or updated patient records contain a valid name. Records with missing names      │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>should be flagged for correction or prevented from being inserted/updated until a name   │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>is provided.                                                                             │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> date_of_admission, discharge_date, doctor, hospital</span><span style="background-color: #272822">                             </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset</span><span style="background-color: #272822">                                                                </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> name </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">IS</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">NULL</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">OR</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">TRIM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">(name) </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #e6db74; text-decoration-color: #e6db74; background-color: #272822">&#x27;&#x27;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">;</span><span style="background-color: #272822">                                                 </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                        </span> │
+╰─────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+</body>
+</html>

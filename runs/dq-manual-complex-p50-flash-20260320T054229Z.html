@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Quality Report</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f8fb;
+      color: #122030;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 12px 0;
+    }
+    .brand-logo {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+    .brand-mark {
+      width: 18px;
+      height: 48px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #052049 0%, #0d3b7a 100%);
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      color: #052049;
+      font-weight: 700;
+    }
+    .brand-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 13px;
+      color: #42566f;
+    }
+    article {
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    pre {
+      background: #0f1724;
+      color: #e5edf7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #d8e0ea;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f4f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img class="brand-logo" src="../assets/ucsf_logo.svg" alt="UCSF logo" />
+      <div>
+        <p class="brand-name">UCSF</p>
+        <p class="brand-subtitle">Data Quality Report</p>
+      </div>
+    </div>
+    <article>
+      <h1>Data Quality Report - dq-manual-complex-p50-flash-20260320T054229Z</h1>
+<p>Generated at: 2026-03-20 05:43:15 UTC</p>
+<h2>Executive Summary</h2>
+<ul>
+<li>Overall verdict: <strong>RED</strong></li>
+<li>Total tests executed: <strong>2</strong></li>
+<li>Passed: <strong>0</strong></li>
+<li>Failed: <strong>2</strong></li>
+<li>Errors: <strong>0</strong></li>
+</ul>
+<h2>Run Metadata</h2>
+<ul>
+<li>Database: <code>sqlite:///./runs/db/healthcare_work.sqlite</code></li>
+<li>Prompt: <code>Manual benchmark complex issues: COMPLEX-P50-FLASH</code></li>
+<li>Event log: <code>runs/dq-manual-complex-p50-flash-20260320T054229Z.jsonl</code></li>
+</ul>
+<h2>Coverage Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th style="text-align: right;">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>High</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Low</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>Top Findings</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Status</th>
+<th>Table</th>
+<th>Test</th>
+<th style="text-align: right;">Issue Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>admission_discharge_date_consistency</td>
+<td style="text-align: right;">555</td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>FAIL</td>
+<td>healthcare_dataset</td>
+<td>billing_amount_non_negative</td>
+<td style="text-align: right;">108</td>
+</tr>
+</tbody>
+</table>
+<h2>Detailed Findings</h2>
+<h3>1. [HIGH/FAIL] admission_discharge_date_consistency (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: The discharge date must logically be on or after the admission date. If the discharge date precedes the admission date, it indicates a critical data entry error that can impact patient stay calculations, billing, and reporting accuracy.</li>
+<li>Issue count: <strong>555</strong></li>
+<li>Output truncated: <strong>yes</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT *
+FROM healthcare_dataset
+WHERE julianday(discharge_date) &lt; julianday(date_of_admission);
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;CHrisTInA MARtinez&quot;,
+    &quot;age&quot;: 20,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Cancer&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-12-28&quot;,
+    &quot;doctor&quot;: &quot;Suzanne Thomas&quot;,
+    &quot;hospital&quot;: &quot;Powell Robinson and Valdez,&quot;,
+    &quot;insurance_provider&quot;: &quot;Cigna&quot;,
+    &quot;billing_amount&quot;: 45820.46272159459,
+    &quot;room_number&quot;: 277,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2021-12-27&quot;,
+    &quot;medication&quot;: &quot;Paracetamol&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;JOsEph fOstER&quot;,
+    &quot;age&quot;: 59,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;O+&quot;,
+    &quot;medical_condition&quot;: &quot;Obesity&quot;,
+    &quot;date_of_admission&quot;: &quot;2019-09-11&quot;,
+    &quot;doctor&quot;: &quot;Daniel Smith&quot;,
+    &quot;hospital&quot;: &quot;Alvarado-Deleon&quot;,
+    &quot;insurance_provider&quot;: &quot;Blue Cross&quot;,
+    &quot;billing_amount&quot;: 27385.736227988127,
+    &quot;room_number&quot;: 427,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2019-09-10&quot;,
+    &quot;medication&quot;: &quot;Penicillin&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;mIcHael anDeRson&quot;,
+    &quot;age&quot;: 64,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;AB-&quot;,
+    &quot;medical_condition&quot;: &quot;Arthritis&quot;,
+    &quot;date_of_admission&quot;: &quot;2019-08-16&quot;,
+    &quot;doctor&quot;: &quot;Charles Webb&quot;,
+    &quot;hospital&quot;: &quot;Bass Inc&quot;,
+    &quot;insurance_provider&quot;: &quot;Medicare&quot;,
+    &quot;billing_amount&quot;: 5549.785435792208,
+    &quot;room_number&quot;: 302,
+    &quot;admission_type&quot;: &quot;Emergency&quot;,
+    &quot;discharge_date&quot;: &quot;2019-08-15&quot;,
+    &quot;medication&quot;: &quot;Ibuprofen&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  }
+]
+</code></pre>
+<h3>2. [HIGH/FAIL] billing_amount_non_negative (healthcare_dataset)</h3>
+<ul>
+<li>Why this matters: Billing amounts are expected to be positive values, representing a cost or charge. A negative or zero billing amount indicates a data entry error, a processing error, or an unaccounted adjustment, leading to incorrect financial records and potential revenue loss.</li>
+<li>Issue count: <strong>108</strong></li>
+<li>Output truncated: <strong>no</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT *
+FROM healthcare_dataset
+WHERE billing_amount &lt;= 0;
+</code></pre>
+<p>Example rows:</p>
+<pre><code class="language-json">[
+  {
+    &quot;name&quot;: &quot;ashLEy ERIcKSoN&quot;,
+    &quot;age&quot;: 32,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;AB-&quot;,
+    &quot;medical_condition&quot;: &quot;Cancer&quot;,
+    &quot;date_of_admission&quot;: &quot;2019-11-05&quot;,
+    &quot;doctor&quot;: &quot;Gerald Hooper&quot;,
+    &quot;hospital&quot;: &quot;and Johnson Moore, Branch&quot;,
+    &quot;insurance_provider&quot;: &quot;Aetna&quot;,
+    &quot;billing_amount&quot;: -502.50781270094785,
+    &quot;room_number&quot;: 376,
+    &quot;admission_type&quot;: &quot;Urgent&quot;,
+    &quot;discharge_date&quot;: &quot;2019-11-23&quot;,
+    &quot;medication&quot;: &quot;Penicillin&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  },
+  {
+    &quot;name&quot;: &quot;CHRisTOPHer wEiss&quot;,
+    &quot;age&quot;: 49,
+    &quot;gender&quot;: &quot;Female&quot;,
+    &quot;blood_type&quot;: &quot;AB-&quot;,
+    &quot;medical_condition&quot;: &quot;Asthma&quot;,
+    &quot;date_of_admission&quot;: &quot;2023-02-16&quot;,
+    &quot;doctor&quot;: &quot;Kelly Thompson&quot;,
+    &quot;hospital&quot;: &quot;Hunter-Hughes&quot;,
+    &quot;insurance_provider&quot;: &quot;Aetna&quot;,
+    &quot;billing_amount&quot;: -1018.2453712282881,
+    &quot;room_number&quot;: 204,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2023-03-09&quot;,
+    &quot;medication&quot;: &quot;Penicillin&quot;,
+    &quot;test_results&quot;: &quot;Inconclusive&quot;
+  },
+  {
+    &quot;name&quot;: &quot;AsHley WaRnER&quot;,
+    &quot;age&quot;: 60,
+    &quot;gender&quot;: &quot;Male&quot;,
+    &quot;blood_type&quot;: &quot;A+&quot;,
+    &quot;medical_condition&quot;: &quot;Hypertension&quot;,
+    &quot;date_of_admission&quot;: &quot;2021-12-21&quot;,
+    &quot;doctor&quot;: &quot;Andrea Bentley&quot;,
+    &quot;hospital&quot;: &quot;and Wagner, Lee Klein&quot;,
+    &quot;insurance_provider&quot;: &quot;Aetna&quot;,
+    &quot;billing_amount&quot;: -306.3649251412676,
+    &quot;room_number&quot;: 426,
+    &quot;admission_type&quot;: &quot;Elective&quot;,
+    &quot;discharge_date&quot;: &quot;2022-01-11&quot;,
+    &quot;medication&quot;: &quot;Ibuprofen&quot;,
+    &quot;test_results&quot;: &quot;Normal&quot;
+  }
+]
+</code></pre>
+<h2>Supervisor Narrative</h2>
+<p><strong>Data Quality Report: healthcare_dataset</strong></p>
+<p><strong>Overall Verdict:</strong> Red</p>
+<p><strong>Top Critical/High Issues:</strong><br>
+*   <strong><code>admission_discharge_date_consistency</code> (High severity):</strong> Found 555 rows where the discharge date is before the admission date, indicating critical data entry errors. This can severely impact patient stay calculations, billing, and reporting accuracy.<br>
+*   <strong><code>billing_amount_non_negative</code> (High severity):</strong> Found 108 rows where the billing amount is zero or negative, indicating incorrect financial records and potential revenue discrepancies.</p>
+<p><strong>Test Coverage Notes:</strong><br>
+Two critical data quality checks were executed on the <code>healthcare_dataset</code> table. These tests specifically targeted the logical consistency of <code>date_of_admission</code> and <code>discharge_date</code>, and the numerical validity of <code>billing_amount</code>. Both tests identified a substantial number of issues, highlighting significant data integrity problems within the dataset.</p>
+<p><strong>Suggested Production Guardrails (SQL checks to schedule each load):</strong><br>
+To mitigate these recurring critical data quality issues, the following SQL checks should be implemented and scheduled to run automatically with every data load into the <code>healthcare_dataset</code> table:</p>
+<ol>
+<li>
+<p><strong>Admission and Discharge Date Consistency:</strong><br>
+<code>sql
+    SELECT *
+    FROM healthcare_dataset
+    WHERE julianday(discharge_date) &lt; julianday(date_of_admission);</code><br>
+    This guardrail ensures that for every record, the discharge date is not earlier than the admission date, preventing illogical patient stay durations.</p>
+</li>
+<li>
+<p><strong>Billing Amount Non-Negative Validation:</strong><br>
+<code>sql
+    SELECT *
+    FROM healthcare_dataset
+    WHERE billing_amount &lt;= 0;</code><br>
+    This guardrail will identify any records where the billing amount is zero or negative, safeguarding financial data integrity.</p>
+</li>
+</ol>
+    </article>
+  </div>
+</body>
+</html>

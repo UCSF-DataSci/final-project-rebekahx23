@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+
+body {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code style="font-family:inherit"><span style="color: #800000; text-decoration-color: #800000">╭──────────────────────────────────────────────────────────────╮</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> run_id: dq-manual-complex-p50-flash-20260320T054229Z         <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> db_url: sqlite:///./runs/db/healthcare_work.sqlite           <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> verdict: RED                                                 <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> tests: 2 (pass=0, fail=2, error=0)                           <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> log: runs/dq-manual-complex-p50-flash-20260320T054229Z.jsonl <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">╰──────────────────────────────────────────────────────────────╯</span>
+<span style="color: #800080; text-decoration-color: #800080; text-decoration: underline">Run Snapshot</span>                                                                                                                       
+
+<span style="font-weight: bold"> • </span>Overall verdict: <span style="font-weight: bold">RED</span>                                                                                                            
+<span style="font-weight: bold"> • </span>Total tests: <span style="font-weight: bold">2</span>                                                                                                                  
+<span style="font-weight: bold"> • </span>Passed: <span style="font-weight: bold">0</span>                                                                                                                       
+<span style="font-weight: bold"> • </span>Failed: <span style="font-weight: bold">2</span>                                                                                                                       
+<span style="font-weight: bold"> • </span>Errors: <span style="font-weight: bold">0</span>                                                                                                                       
+<span style="font-style: italic">                                      Data Quality Test Results                                       </span>
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Severity </span>┃<span style="font-weight: bold"> Status </span>┃<span style="font-weight: bold"> Table              </span>┃<span style="font-weight: bold"> Test                                 </span>┃<span style="font-weight: bold"> Issues </span>┃<span style="font-weight: bold"> Truncated </span>┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━┩
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">HIGH</span><span style="font-weight: bold">     </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ admission_discharge_date_consistency │    555 │ yes       │
+│<span style="font-weight: bold"> </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">HIGH</span><span style="font-weight: bold">     </span>│ <span style="color: #800000; text-decoration-color: #800000; font-weight: bold">FAIL</span>   │ healthcare_dataset │ billing_amount_non_negative          │    108 │ no        │
+└──────────┴────────┴────────────────────┴──────────────────────────────────────┴────────┴───────────┘
+╭───────────────────────────────────────────────────── Supervisor Narrative ──────────────────────────────────────────────────────╮
+│ <span style="font-weight: bold">Data Quality Report: healthcare_dataset</span>                                                                                         │
+│                                                                                                                                 │
+│ <span style="font-weight: bold">Overall Verdict:</span> Red                                                                                                            │
+│                                                                                                                                 │
+│ <span style="font-weight: bold">Top Critical/High Issues:</span>                                                                                                       │
+│                                                                                                                                 │
+│ <span style="font-weight: bold"> • </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">admission_discharge_date_consistency</span><span style="font-weight: bold"> (High severity):</span> Found 555 rows where the discharge date is before the admission date,  │
+│ <span style="font-weight: bold">   </span>indicating critical data entry errors. This can severely impact patient stay calculations, billing, and reporting accuracy.  │
+│ <span style="font-weight: bold"> • </span><span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">billing_amount_non_negative</span><span style="font-weight: bold"> (High severity):</span> Found 108 rows where the billing amount is zero or negative, indicating         │
+│ <span style="font-weight: bold">   </span>incorrect financial records and potential revenue discrepancies.                                                             │
+│                                                                                                                                 │
+│ <span style="font-weight: bold">Test Coverage Notes:</span> Two critical data quality checks were executed on the <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">healthcare_dataset</span> table. These tests specifically   │
+│ targeted the logical consistency of <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">date_of_admission</span> and <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">discharge_date</span>, and the numerical validity of <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">billing_amount</span>. Both    │
+│ tests identified a substantial number of issues, highlighting significant data integrity problems within the dataset.           │
+│                                                                                                                                 │
+│ <span style="font-weight: bold">Suggested Production Guardrails (SQL checks to schedule each load):</span> To mitigate these recurring critical data quality issues,   │
+│ the following SQL checks should be implemented and scheduled to run automatically with every data load into the                 │
+│ <span style="color: #008080; text-decoration-color: #008080; background-color: #000000; font-weight: bold">healthcare_dataset</span> table:                                                                                                       │
+│                                                                                                                                 │
+│ <span style="color: #008080; text-decoration-color: #008080"> 1 </span><span style="font-weight: bold">Admission and Discharge Date Consistency:</span>                                                                                    │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                                                            </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">*</span><span style="background-color: #272822">                                                                                                                   </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset</span><span style="background-color: #272822">                                                                                                    </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> julianday(discharge_date) </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&lt;</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> julianday(date_of_admission);</span><span style="background-color: #272822">                                                            </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                                                            </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>This guardrail ensures that for every record, the discharge date is not earlier than the admission date, preventing          │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>illogical patient stay durations.                                                                                            │
+│ <span style="color: #008080; text-decoration-color: #008080"> 2 </span><span style="font-weight: bold">Billing Amount Non-Negative Validation:</span>                                                                                      │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                                                            </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">SELECT</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">*</span><span style="background-color: #272822">                                                                                                                   </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">FROM</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> healthcare_dataset</span><span style="background-color: #272822">                                                                                                    </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822"> </span><span style="color: #66d9ef; text-decoration-color: #66d9ef; background-color: #272822">WHERE</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> billing_amount </span><span style="color: #f92672; text-decoration-color: #f92672; background-color: #272822">&lt;=</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822"> </span><span style="color: #ae81ff; text-decoration-color: #ae81ff; background-color: #272822">0</span><span style="color: #f8f8f2; text-decoration-color: #f8f8f2; background-color: #272822">;</span><span style="background-color: #272822">                                                                                                 </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span><span style="background-color: #272822">                                                                                                                            </span> │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>This guardrail will identify any records where the billing amount is zero or negative, safeguarding financial data           │
+│ <span style="color: #008080; text-decoration-color: #008080">   </span>integrity.                                                                                                                   │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre>
+</body>
+</html>
