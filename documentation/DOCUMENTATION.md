@@ -192,21 +192,21 @@ The system produces:
 
 #### Delta F1 Heatmaps
 
-![Simple Delta F1 Heatmap](final-summary-output/manual-summary-f1-heatmap-simple.png)
+![Simple Delta F1 Heatmap](../final-summary-output/manual-summary-f1-heatmap-simple.png)
 
-![Complex Delta F1 Heatmap](final-summary-output/manual-summary-f1-heatmap-complex.png)
+![Complex Delta F1 Heatmap](../final-summary-output/manual-summary-f1-heatmap-complex.png)
 
 #### Recall vs Token Cost
 
-![Simple Recall vs Tokens](final-summary-output/manual-summary-recall-vs-tokens-simple.png)
+![Simple Recall vs Tokens](../final-summary-output/manual-summary-recall-vs-tokens-simple.png)
 
-![Complex Recall vs Tokens](final-summary-output/manual-summary-recall-vs-tokens-complex.png)
+![Complex Recall vs Tokens](../final-summary-output/manual-summary-recall-vs-tokens-complex.png)
 
 #### Profile Curves by Model
 
-![Simple Delta F1 by Profile](final-summary-output/manual-summary-f1-lines-simple.png)
+![Simple Delta F1 by Profile](../final-summary-output/manual-summary-f1-lines-simple.png)
 
-![Complex Delta F1 by Profile](final-summary-output/manual-summary-f1-lines-complex.png)
+![Complex Delta F1 by Profile](../final-summary-output/manual-summary-f1-lines-complex.png)
 
 ---
 
