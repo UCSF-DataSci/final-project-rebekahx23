@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multi-agent-data-quality"
+version = "0.1.0"
+description = "Multi-agent data quality scanner built with Google ADK"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "google-adk>=1.25.0",
+  "sqlalchemy>=2.0.0",
+  "python-dotenv>=1.0.0",
+  "markdown>=3.6.0",
+  "rich>=13.7.0"
+]
+
+[project.scripts]
+dq-run = "data_quality_agent.run_job:main"
+dq-lab = "data_quality_agent.local_lab:main"
+dq-eval = "data_quality_agent.evaluate:main"
+dq-experiment = "data_quality_agent.experiment:main"
+dq-manual = "data_quality_agent.manual_benchmark:main"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0"
+]
+
+[tool.setuptools]
+packages = ["data_quality_agent"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
